@@ -18,14 +18,14 @@ echo "fn main() {
 }" > $1/$1.rs;
 
 echo "
---- $1: ---
+### **--- $1: ---**
 
 > **My Answer :** 
 [Code]()
  
 ------
  
---- $1: (Part Two) ---
+### **--- $1: (Part Two) ---**
 
 > **My Answer :** 
 [Code]()
