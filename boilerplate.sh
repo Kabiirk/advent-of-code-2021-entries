@@ -15,11 +15,7 @@ mkdir $1/
 
 echo "fn main() {
     println!(\"Hello World!\");
-}" > $1/$1part1.rs;
-
-echo "fn main() {
-    println!(\"Hello World!\");
-}" > $1/$1part2.rs;
+}" > $1/$1.rs;
 
 echo "
 --- $1: ---
