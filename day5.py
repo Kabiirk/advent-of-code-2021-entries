@@ -7,7 +7,13 @@ with open('input5.txt', 'r') as f:
         vent_lines.append([x1, y1, x2, y2])
 
 #print(vent_lines)
+max_size = 0
+for line in vent_lines:
+    for col in line:
+        if(col>max_size):
+            max_size = col
 
+#print(max_size)
 
 # Part 1
 def draw_line(field, line):
@@ -25,41 +31,26 @@ def draw_line(field, line):
     if(y1 == y2):
         # Same y coord (y1 == y2)
         #print("Hori !", line)
-        for i in range(x1, x2+1):
-            field[i][y1]+=1
+        for i in range(min(x1, x2), max(x1,x2)+1):
+            field[y1][i]+=1
     elif(x1 == x2):
         # Same x coord (x1 == x2)
         #print("Verti !", line)
-        for j in range(y1, y2+1):
-            field[x1][j]+=1
-    else:
-        pass
+        for j in range(min(y1, y2), max(y1, y2)+1):
+            field[j][x1]+=1
 
-# Assume 1000 x 1000 map
-field = []
-size = 1000
-for i in range(size):
-    row = []
-    for j in range(size):
-        row.append(0)
-    field.append(row)
+
+field = [[0 for i in range(max_size + 1)] for j in range(max_size + 1)]
 
 for line in vent_lines:
     draw_line(field, line)
 
-# field[0][0]+=1
-# field[0][1]+=1
-# field[1][1]+=1
-# field[1][0]+=1
-
-# for row in field:
-#     print(row)
-#     print('\r')
 count_intersection = 0
 for row in field:
     for col in row:
         if(col >= 2):
             count_intersection += 1
+
 print(count_intersection) # 7414
 
 
@@ -75,36 +66,36 @@ def draw_line_diag(field, line):
     y1 = line[1]
     x2 = line[2]
     y2 = line[3]
+    slopey =  ( max(y1,y2) - min(y1, y2) )
+    slopex =  ( max(x1,x2) - min(x1, x2) )
 
     if(y1 == y2):
         # Same y coord (y1 == y2)
         #print("Hori !", line)
-        for i in range(x1, x2+1):
-            field[i][y1]+=1
+        for i in range(min(x1, x2), max(x1,x2)+1):
+            field[y1][i]+=1
     elif(x1 == x2):
         # Same x coord (x1 == x2)
         #print("Verti !", line)
-        for j in range(y1, y2+1):
-            field[x1][j]+=1
-    elif( y2-y1 == x2-x1 ):
-        # Diagonal slope 45 Deg.
-        for i in range(x1, x2+1):
-            for j in range(y1, y2+1):
-                field[i][j]+=1
+        for j in range(min(y1, y2), max(y1,y2)+1):
+            field[j][x1]+=1
     else:
-        pass
+        xs, x, ys, y = min(x1, x2),\
+                       max(x1, x2), \
+                       [y1, y2][x1 > x2],\
+                       [y1, y2][x1 < x2]
 
-# Assume 1000 x 1000 map
-field = []
-size = 1000
-for i in range(size):
-    row = []
-    for j in range(size):
-        row.append(0)
-    field.append(row)
+        y_new = ys
+        for i in range(xs, x+1):
+            field[y_new][i] += 1
+            y_new += [-1, 1][ys < y]
+
+
+field = [[0 for i in range(max_size + 1)] for j in range(max_size + 1)]
 
 for line in vent_lines:
     draw_line_diag(field, line)
+
 count_intersection = 0
 for row in field:
     for col in row:
