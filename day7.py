@@ -10,11 +10,10 @@ crab_positions = [ int(crab_position) for crab_position in crab_positions ]
 # so doing it in the same function
 def least_fuel_alignment( positions, part_two ):
     least_fuel = math.inf
-    least_pos = 0
-    for ref_position in positions:
+    for i in range(min(positions), max(positions)+1):
         current_fuel = 0
         for position in positions:
-            difference = abs(ref_position - position)
+            difference = abs(i - position)
 
             # minor modification to solve Part 2
             if(part_two):
@@ -26,9 +25,7 @@ def least_fuel_alignment( positions, part_two ):
         
         if(current_fuel < least_fuel):
             least_fuel = current_fuel
-            least_pos = ref_position
 
-    print(least_pos)
     return least_fuel
 
 # Part 1
