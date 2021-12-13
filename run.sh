@@ -4,6 +4,6 @@ if [ $# -ne 1 ]
     exit 1
 fi
 
-cd $1
-./$1
+cd Day$1
+./Day$1
 cd ..

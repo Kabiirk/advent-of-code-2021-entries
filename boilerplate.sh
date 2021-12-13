@@ -11,11 +11,13 @@ if [ -d  "$1" ]
     exit 1
 fi
 
-mkdir $1/
+mkdir Day$1/
 
-echo "fn main() {
-    println!(\"Hello World!\");
-}" > $1/$1.rs;
+echo "#include<stdio.h>
+
+int main() {
+    printf(\"Hello World!\");
+}" > Day$1/Day$1.c;
 
 echo "
 ### **--- $1: ---**
@@ -29,4 +31,4 @@ echo "
 
 > **My Answer :** 
 [Code]()
-" > $1/README.md
+" > Day$1/README.md

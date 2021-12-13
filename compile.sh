@@ -11,8 +11,8 @@ fi
 #     exit 1
 # fi
 
-cd $1/
+cd Day$1/
 
-rustc $1.rs
+C:/MinGW/bin/gcc Day$1.c -o Day$1.exe
 
 cd ..
