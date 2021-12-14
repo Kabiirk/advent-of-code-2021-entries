@@ -56,7 +56,7 @@ Apply 10 steps of pair insertion to the polymer template and find the most and l
 
 > **My Answer : 3555**
 
-[Code]()
+[Code](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.cpp)
  
 ------
  
@@ -67,7 +67,7 @@ In the above example, the most common element is ```B``` (occurring ```219203956
 
 Apply **40** steps of pair insertion to the polymer template and find the most and least common elements in the result. **What do you get if you take the quantity of the most common element and subtract the quantity of the least common element ?**
 
-> **My Answer :**
+> **My Answer : 4439442043739**
 
-[Code]()
+[Code](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.cpp)
 
