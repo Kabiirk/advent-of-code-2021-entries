@@ -13,22 +13,26 @@ fi
 
 mkdir Day$1/
 
-echo "#include<stdio.h>
+echo "#include<iostream>
 
 int main() {
-    printf(\"Hello World!\");
-}" > Day$1/Day$1.c;
+    std::cout<<\"Hello World!\"<<std::endl;
+
+    return 0;
+}" > Day$1/Day$1.cpp;
 
 echo "
 ### **--- $1: ---**
 
-> **My Answer :** 
+> **My Answer :**
+
 [Code]()
  
 ------
  
 ### **--- $1: (Part Two) ---**
 
-> **My Answer :** 
+> **My Answer :**
+
 [Code]()
 " > Day$1/README.md

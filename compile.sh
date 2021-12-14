@@ -13,6 +13,6 @@ fi
 
 cd Day$1/
 
-C:/MinGW/bin/gcc Day$1.c -o Day$1.exe
+C:/MinGW/bin/g++ Day$1.cpp -o Day$1.exe
 
 cd ..
