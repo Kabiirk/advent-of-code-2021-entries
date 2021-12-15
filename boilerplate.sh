@@ -13,7 +13,9 @@ fi
 
 mkdir Day$1/
 
-echo "#include<iostream>
+echo "#include <iostream>
+
+using namespace std;
 
 int main() {
     std::cout<<\"Hello World!\"<<std::endl;

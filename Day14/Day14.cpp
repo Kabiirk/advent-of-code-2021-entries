@@ -99,7 +99,6 @@ int main() {
 
     // Part 2
     string final_pattern2 = extendPolymer(rules, pattern, 40);
-    cout<<final_pattern2<<endl;
     map<char, ULLI> frequency_dict2 = string2Frequency(final_pattern2);
     cout<< calcMinMaxFrequencyDifference(frequency_dict2) << endl; // 4439442043739
 
