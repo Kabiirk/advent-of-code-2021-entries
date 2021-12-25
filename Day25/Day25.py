@@ -15,6 +15,7 @@ with open("input.txt", 'r') as file:
         e += 1
     print(e) # 520
 
+
 '''
      *
     /.\
