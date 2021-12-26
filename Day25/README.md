@@ -301,17 +301,13 @@ Just as you start to lose hope, you notice a button on the sleigh keys: remote s
 
 The experimental antenna control console lights up again:
 
-> Energy source detected.
->
-> Integrating energy source from device "sleigh keys"...done.
->
-> Installing device drivers...done.
->
-> Recalibrating experimental antenna...done.
->
-> Boost strength due to matching signal phase: 1 star
+> Energy source detected.  
+Integrating energy source from device "sleigh keys"...**done**.  
+Installing device drivers...**done**.  
+Recalibrating experimental antenna...**done**.  
+Boost strength due to matching signal phase: **1 star**
 
-Only <span style="color:#FFD700">**49 stars**</span> to go. 
+Only **49 stars** to go. 
 
 If you like, you can [Remotely Start The Sleigh Again].
 
@@ -319,4 +315,4 @@ If you like, you can [Remotely Start The Sleigh Again].
 
 At this point, all that is left is for you to admire your Advent calendar.
 
-> **My Answer : _No answer, just needed to click the "Remotely Start The Sleigh Again" button._**
+> **_No answer, just needed to click the "Remotely Start The Sleigh Again" button._**
