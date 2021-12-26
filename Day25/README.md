@@ -12,8 +12,8 @@ You explain that you'd like to predict when you could land your submarine.
 
 "Oh that's easy, they'll eventually pile up and leave enough space for-- wait, did you say submarine? And the only place with that many sea cucumbers would be at the very bottom of the Mariana--" You hang up the phone.
 
-There are two herds of sea cucumbers sharing the same region; one always moves east (>), while the other always moves south (v). Each location can contain at most one sea cucumber; the remaining locations are empty (.). The submarine helpfully generates a map of the situation (your puzzle input). For example:
-
+There are two herds of sea cucumbers sharing the same region; one always moves east (```>```), while the other always moves south (```v```). Each location can contain at most one sea cucumber; the remaining locations are empty (```.```). The submarine helpfully generates a map of the situation (your puzzle input). For example:
+```
 v...>>.vv>
 .vv>>.vv..
 >>.>v>...v
@@ -23,31 +23,37 @@ v>v.vv.v..
 .vv..>.>v.
 v.v..>>v.v
 ....v..v.>
+```
 Every step, the sea cucumbers in the east-facing herd attempt to move forward one location, then the sea cucumbers in the south-facing herd attempt to move forward one location. When a herd moves forward, every sea cucumber in the herd first simultaneously considers whether there is a sea cucumber in the adjacent location it's facing (even another sea cucumber facing the same direction), and then every sea cucumber facing an empty location simultaneously moves into that location.
 
 So, in a situation like this:
-
+```
 ...>>>>>...
+```
 After one step, only the rightmost sea cucumber would have moved:
-
+```
 ...>>>>.>..
+```
 After the next step, two sea cucumbers move:
-
+```
 ...>>>.>.>.
+```
 During a single step, the east-facing herd moves first, then the south-facing herd moves. So, given this situation:
-
+```
 ..........
 .>v....v..
 .......>..
 ..........
+```
 After a single step, of the sea cucumbers on the left, only the south-facing sea cucumber has moved (as it wasn't out of the way in time for the east-facing cucumber on the left to move), but both sea cucumbers on the right have moved (as the east-facing sea cucumber moved out of the way of the south-facing sea cucumber):
-
+```
 ..........
 .>........
 ..v....v>.
 ..........
+```
 Due to strong water currents in the area, sea cucumbers that move off the right edge of the map appear on the left edge, and sea cucumbers that move off the bottom edge of the map appear on the top edge. Sea cucumbers always check whether their destination location is empty before moving, even if that destination is on the opposite side of the map:
-
+```
 Initial state:
 ...>...
 .......
@@ -92,8 +98,9 @@ After 4 steps:
 ...>...
 .......
 v......
+```
 To find a safe place to land your submarine, the sea cucumbers need to stop moving. Again consider the first example:
-
+```
 Initial state:
 v...>>.vv>
 .vv>>.vv..
@@ -271,9 +278,9 @@ vvv.....>>
 >vv......>
 .>v.vv.v..
 ```
-In this example, the sea cucumbers stop moving after 58 steps.
+In this example, the sea cucumbers stop moving after ```58``` steps.
 
-Find somewhere safe to land your submarine. What is the first step on which no sea cucumbers move?
+Find somewhere safe to land your submarine. **What is the first step on which no sea cucumbers move ?**
 
 > **My Answer : 520**
 
@@ -282,8 +289,33 @@ Find somewhere safe to land your submarine. What is the first step on which no s
 ------
  
 ### **--- Day 25: Sea Cucumber (Part Two) ---**
+Suddenly, the experimental antenna control console lights up:
 
-> **My Answer :**
+> **Sleigh keys detected!**
 
-[Code]()
+According to the console, the keys are directly under the submarine. You landed right on them! Using a robotic arm on the submarine, you move the sleigh keys into the airlock.
 
+Now, you just need to get them to Santa in time to save Christmas! You check your clock - it is Christmas. There's no way you can get them back to the surface in time.
+
+Just as you start to lose hope, you notice a button on the sleigh keys: remote start. You can start the sleigh from the bottom of the ocean! You just need some way to boost the signal from the keys so it actually reaches the sleigh. Good thing the submarine has that experimental antenna! You'll definitely need <span style="color:#FFD700;text-shadow: 0 0 10px #fff700">**50 stars**</span> to boost it that far, though.
+
+The experimental antenna control console lights up again:
+
+> Energy source detected.
+>
+> Integrating energy source from device "sleigh keys"...done.
+>
+> Installing device drivers...done.
+>
+> Recalibrating experimental antenna...done.
+>
+> Boost strength due to matching signal phase: 1 star
+Only <span style="color:#FFD700;text-shadow: 0 0 10px #fff700">**49 stars**</span> to go. 
+
+If you like, you can [Remotely Start The Sleigh Again].
+
+**Both parts of this puzzle are complete! They provide two gold stars: \*\***
+
+At this point, all that is left is for you to admire your Advent calendar.
+
+> **My Answer : _No answer, just needed to click the "Remotely Start The Sleigh Again" button._**
