@@ -48,7 +48,7 @@ def solve(nums: list[int], boards: list[Board]) -> tuple[int, int]:
 
 # nums: str | list[int]
 # boards: list[str] | list[Board]
-nums, *boards = open('input4.txt').read().rstrip().split('\n\n')
+nums, *boards = open('input.txt').read().rstrip().split('\n\n')
 nums = list(map(int, nums.split(',')))
 boards = [Board.from_string(b) for b in boards]
 
