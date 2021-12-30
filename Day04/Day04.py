@@ -29,6 +29,7 @@ class Board:
         return sum(self.nums.keys())
     @staticmethod
     def from_string(s: str) -> 'Board':
+        print([[int(n) for n in l.split()] for l in s.split('\n')])
         return Board([[int(n) for n in l.split()] for l in s.split('\n')])
 
 def solve(nums: list[int], boards: list[Board]) -> tuple[int, int]:
