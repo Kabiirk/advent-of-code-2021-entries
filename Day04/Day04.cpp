@@ -19,10 +19,8 @@ using namespace std;
 >
 */
 void readFile(string filename){
-    vector<string> full_data;
-    vector<int> line_data;
-    int linecount = 1;
-    int rowcount = 0;
+    vector<vector<int>> full_data;
+    vector<int> line_data = {0, 0, 0, 0, 0};
     string line;
     ifstream myfile (filename);
     int blank = 0;
@@ -39,19 +37,21 @@ void readFile(string filename){
                 blank++;
             }
             else{
-                const regex r("(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)");
+                const regex r("(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)");
                 smatch result;
                 if(regex_search(line, result, r)){
                     //cout<<line<<endl;
-                    if(rowcount<=4)
-                    {
-                        cout<<result[1]<<"->"<<result[3]<<"->"<<result[5]<<"->"<<result[7]<<"->"<<result[9]<<endl;
-                        rowcount++;
-                    }
-                    else{
-                        cout<<endl;
-                        rowcount = 0;
-                    }
+                    //cout<<result[1]<<"->"<<result[3]<<"->"<<result[5]<<"->"<<result[7]<<"->"<<result[9]<<endl;
+                    // TODO : Find a faster way to do this
+                    line_data.push_back(stoi(result[2]));
+                    line_data.push_back(stoi(result[4]));
+                    line_data.push_back(stoi(result[6]));
+                    line_data.push_back(stoi(result[8]));
+                    line_data.push_back(stoi(result[10]));
+                    full_data.push_back(line_data);
+                    // Best practice to clear vector AND de-allocate memory
+                    line_data.resize(0);
+                    line_data.shrink_to_fit();
                 }
             }
         }
