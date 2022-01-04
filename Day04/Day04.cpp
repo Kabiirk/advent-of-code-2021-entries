@@ -20,7 +20,7 @@ using namespace std;
 */
 void readFile(string filename){
     vector<vector<int>> full_data;
-    vector<int> line_data = {0, 0, 0, 0, 0};
+    vector<int> line_data;
     string line;
     ifstream myfile (filename);
     int blank = 0;
@@ -50,14 +50,19 @@ void readFile(string filename){
                     line_data.push_back(stoi(result[10]));
                     full_data.push_back(line_data);
                     // Best practice to clear vector AND de-allocate memory
-                    line_data.resize(0);
-                    line_data.shrink_to_fit();
+                    // Ref. : https://www.techiedelight.com/delete-vector-free-memory-cpp/
+                    // line_data.resize(0);
+                    // line_data.shrink_to_fit();
+                    vector<int>().swap(line_data);
                 }
             }
         }
         myfile.close();
     }
     else cout << "Unable to open file";
+
+    // Re-arranging the full_data to desired shape
+    vector< vector< vector<int> > > board = { { { 1,2,3,4,5}, { 1,2,3,4,5}} };
 
     //return report;
 }
