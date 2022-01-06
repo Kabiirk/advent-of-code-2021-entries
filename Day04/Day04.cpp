@@ -5,6 +5,8 @@
 #include <vector>
 #include <regex>
 #include <tuple>
+#include <map>
+#include <set>
 
 using namespace std;
 
@@ -93,18 +95,60 @@ tuple< vector<int>, vector<vector<vector<int>>> > readFile(string filename){
 }
 
 class Board{
-    private:
-        int hello = 0;
-
     public:
-        void setHello(int n){
-            hello = n;
+        vector<int> col_hits, row_hits;
+        bool has_bingo;
+        map<int, tuple<int, int>> nums;
+
+        // Constructor
+        Board( vector<vector<int>> board ){
+            int height = board.size();
+            int width = board[0].size();
+
+            for(int i=0; i<width; i++){
+                this->col_hits.push_back(height);
+            }
+            for(int j=0; j<height; j++){
+                this->col_hits.push_back(width);
+            }
+
+            for(int k = 0; k<board.size();k++ ){
+                for(int l = 0; l<board[k].size(); l++){
+                    this->nums[board[k][l]] = make_tuple(l, k);
+                }
+            }
+
+            this->has_bingo = false;
         }
-    
-        void getHello(){
-            cout<<hello<<endl;
+
+        void call(int num){
+            tuple<int, int> position = this->nums[num];
+            this->nums.erase(this->nums.find(num));
+            int x = get<0>(position);
+            int y = get<1>(position);
+
+            this->col_hits[x]--;
+            this->row_hits[y]--;
+            this->has_bingo = this->has_bingo || !this->col_hits[x] || !this->row_hits[y];
+        }
+
+        int unmarkedSum(){
+            int sum = 0;
+            for(map<int, tuple<int, int>>::iterator it = this->nums.begin(); it != this->nums.end(); ++it){
+                sum+=it->first;
+            }
+
+            return sum;
         }
 };
+
+tuple<int, int> solve( vector<int> nums, vector<vector<vector<int>>> boards ){
+    set<int> won;
+    vector<int> wins;
+    int num;
+
+    return make_tuple(1,2);
+}
 
 int main() {
     auto data = readFile("input.txt");
