@@ -4,10 +4,11 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <tuple>
 
 using namespace std;
 
-void readFile(string filename){
+tuple< vector<int>, vector<vector<vector<int>>> > readFile(string filename){
     /*
     Desired Vector shapes :
     nums = < 1, 2, 3, 4 .... >
@@ -44,11 +45,6 @@ void readFile(string filename){
                     getline(ss, substr, ',');
                     nums.push_back(stoi(substr));
                 }
-
-                for(auto t : nums){
-                    cout<<t+9<<", ";
-                }
-
             }
             else{
                 const regex r("(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)");
@@ -93,7 +89,7 @@ void readFile(string filename){
         boards.push_back(current_board);
     }
 
-    //return report;
+    return make_tuple(nums, boards);
 }
 
 class Board{
@@ -111,7 +107,9 @@ class Board{
 };
 
 int main() {
-    readFile("input.txt");
-
+    auto data = readFile("input.txt");
+    vector<int> nums = get<0>(data);
+    vector<vector<vector<int>>> boards = get<1>(data);
+    
     return 0;
 }
