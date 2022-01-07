@@ -100,21 +100,32 @@ class Board{
         bool has_bingo;
         map<int, tuple<int, int>> nums;
 
+    public:
         // Constructor
         Board( vector<vector<int>> board ){
+
+            // for testing
+            // for(auto row : board){
+            //     for(auto col : row){
+            //         cout<<col<<" ";
+            //     }
+            //     cout<<endl;
+            // }
+            // cout<<endl;
             int height = board.size();
             int width = board[0].size();
 
             for(int i=0; i<width; i++){
                 this->col_hits.push_back(height);
             }
+
             for(int j=0; j<height; j++){
-                this->col_hits.push_back(width);
+                this->row_hits.push_back(width);
             }
 
-            for(int k = 0; k<board.size();k++ ){
-                for(int l = 0; l<board[k].size(); l++){
-                    this->nums[board[k][l]] = make_tuple(l, k);
+            for(int y = 0; y<board.size();y++ ){
+                for(int x = 0; x<board[y].size(); x++){
+                    this->nums[board[y][x]] = make_tuple(x, y);
                 }
             }
 
@@ -124,11 +135,13 @@ class Board{
         void call(int num){
             tuple<int, int> position = this->nums[num];
             this->nums.erase(this->nums.find(num));
+            
             int x = get<0>(position);
             int y = get<1>(position);
 
             this->col_hits[x]--;
             this->row_hits[y]--;
+            
             this->has_bingo = this->has_bingo || !this->col_hits[x] || !this->row_hits[y];
         }
 
@@ -140,20 +153,48 @@ class Board{
 
             return sum;
         }
+
+        // Static Methods
+        // static Board toClassObject( vector<vector<int>> board ){
+        //     return Board(board);
+        // }
 };
 
-tuple<int, int> solve( vector<int> nums, vector<vector<vector<int>>> boards ){
+tuple<int, int> solve( vector<int> nums, vector<Board> boards ){
     set<int> won;
     vector<int> wins;
-    int num;
-
-    return make_tuple(1,2);
+    for(int k = 0; k<nums.size(); k++){
+        for(int j = 0; j<boards.size(); j++){
+            bool is_in_win = won.find(j) != won.end();
+            if(is_in_win){
+                continue;
+            }
+            
+            boards[j].call(nums[k]);
+            if(boards[j].has_bingo){
+                won.insert(j);
+                wins.push_back(nums[k]*boards[j].unmarkedSum());
+            }
+        }
+    }
+    return make_tuple(wins[0],wins[wins.size()-1]);
 }
 
 int main() {
     auto data = readFile("input.txt");
     vector<int> nums = get<0>(data);
     vector<vector<vector<int>>> boards = get<1>(data);
-    
+    // Find way to better use the memory
+    vector<Board> B;
+
+    for(int i = 0; i<boards.size(); i++){
+        Board b(boards[i]);
+        B.push_back(b);
+    }
+
+    tuple<int, int> result = solve(nums, B);
+    cout<<get<0>(result)<<endl;
+    cout<<get<1>(result)<<endl;
+    //Board C(boards[0]);
     return 0;
 }

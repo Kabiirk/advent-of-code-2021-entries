@@ -14,6 +14,7 @@ class Board:
                 self.nums[cell] = (x, y)
         self.has_bingo = False
     def call(self, num: int) -> None:
+        print(num)
         pos =  self.nums.pop(num, None)
         if pos is None: return
         x, y = pos
@@ -29,7 +30,7 @@ class Board:
         return sum(self.nums.keys())
     @staticmethod
     def from_string(s: str) -> 'Board':
-        print([[int(n) for n in l.split()] for l in s.split('\n')])
+        # print([[int(n) for n in l.split()] for l in s.split('\n')])
         return Board([[int(n) for n in l.split()] for l in s.split('\n')])
 
 def solve(nums: list[int], boards: list[Board]) -> tuple[int, int]:
