@@ -134,20 +134,22 @@ class Board{
 
         void call(int num){
             tuple<int, int> position = this->nums[num];
-            this->nums.erase(this->nums.find(num));
+            this->nums.erase(num);
+
+            cout<<endl;
             
             int x = get<0>(position);
             int y = get<1>(position);
 
-            this->col_hits[x]--;
-            this->row_hits[y]--;
+            this->col_hits[x]-=1;
+            this->row_hits[y]-=1;
             
-            this->has_bingo = this->has_bingo || !this->col_hits[x] || !this->row_hits[y];
+            this->has_bingo = this->has_bingo || (!this->col_hits[x]) || (!this->row_hits[y]);
         }
 
         int unmarkedSum(){
             int sum = 0;
-            for(map<int, tuple<int, int>>::iterator it = this->nums.begin(); it != this->nums.end(); ++it){
+            for(map<int, tuple<int, int>>::iterator it = this->nums.begin(); it != this->nums.end(); it++){
                 sum+=it->first;
             }
 
@@ -163,17 +165,24 @@ class Board{
 tuple<int, int> solve( vector<int> nums, vector<Board> boards ){
     set<int> won;
     vector<int> wins;
-    for(int k = 0; k<nums.size(); k++){
+    for(auto num : nums){
         for(int j = 0; j<boards.size(); j++){
+            cout<<"{ ";
+            for( map<int, tuple<int,int> >::const_iterator it = boards[j].nums.begin();it != boards[j].nums.end(); ++it){
+                int a = get<0>(it->second);
+                int b = get<1>(it->second);
+                cout<<it->first<<": "<<"("<<a<<", "<<b<<"), ";
+            }
+            cout<<" }"<<endl;
             bool is_in_win = won.find(j) != won.end();
             if(is_in_win){
                 continue;
             }
             
-            boards[j].call(nums[k]);
+            boards[j].call(num);
             if(boards[j].has_bingo){
                 won.insert(j);
-                wins.push_back(nums[k]*boards[j].unmarkedSum());
+                wins.push_back(num*boards[j].unmarkedSum());
             }
         }
     }
@@ -186,13 +195,15 @@ int main() {
     vector<vector<vector<int>>> boards = get<1>(data);
     // Find way to better use the memory
     vector<Board> B;
+    vector<Board> C;
 
     for(int i = 0; i<boards.size(); i++){
         Board b(boards[i]);
         B.push_back(b);
     }
 
-    tuple<int, int> result = solve(nums, B);
+    C.push_back(B[99]);
+    tuple<int, int> result = solve(nums, C);
     cout<<get<0>(result)<<endl;
     cout<<get<1>(result)<<endl;
     //Board C(boards[0]);

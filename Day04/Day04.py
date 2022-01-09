@@ -14,7 +14,6 @@ class Board:
                 self.nums[cell] = (x, y)
         self.has_bingo = False
     def call(self, num: int) -> None:
-        print(num)
         pos =  self.nums.pop(num, None)
         if pos is None: return
         x, y = pos
@@ -41,6 +40,7 @@ def solve(nums: list[int], boards: list[Board]) -> tuple[int, int]:
         i: int
         board: Board
         for i, board in enumerate(boards):
+            print(board.nums)
             if i in won: continue
             board.call(num)
             if board.has_bingo:
