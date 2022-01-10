@@ -100,18 +100,17 @@ class Board{
         bool has_bingo;
         map<int, tuple<int, int>> nums;
 
-    public:
         // Constructor
         Board( vector<vector<int>> board ){
 
             // for testing
-            // for(auto row : board){
-            //     for(auto col : row){
-            //         cout<<col<<" ";
-            //     }
-            //     cout<<endl;
-            // }
-            // cout<<endl;
+            for(auto row : board){
+                for(auto col : row){
+                    cout<<col<<" ";
+                }
+                cout<<endl;
+            }
+            cout<<endl;
             int height = board.size();
             int width = board[0].size();
 
@@ -125,7 +124,7 @@ class Board{
 
             for(int y = 0; y<board.size();y++ ){
                 for(int x = 0; x<board[y].size(); x++){
-                    this->nums[board[y][x]] = make_tuple(x, y);
+                    this->nums[board[y][x]] = make_tuple(x, 1);
                 }
             }
 
@@ -136,10 +135,10 @@ class Board{
             tuple<int, int> position = this->nums[num];
             this->nums.erase(num);
 
-            cout<<endl;
+            //cout<<endl;
             
-            int x = get<0>(position);
-            int y = get<1>(position);
+            int x = get<1>(position);
+            int y = get<0>(position);
 
             this->col_hits[x]-=1;
             this->row_hits[y]-=1;
@@ -149,7 +148,7 @@ class Board{
 
         int unmarkedSum(){
             int sum = 0;
-            for(map<int, tuple<int, int>>::iterator it = this->nums.begin(); it != this->nums.end(); it++){
+            for(map<int, tuple<int, int>>::iterator it = this->nums.begin(); it != this->nums.end(); ++it){
                 sum+=it->first;
             }
 
@@ -162,29 +161,39 @@ class Board{
         // }
 };
 
+
+void printBoardNums(Board bo){
+    cout<<"{ ";
+    for( map<int, tuple<int,int> >::const_iterator it = bo.nums.begin();it != bo.nums.end(); ++it){
+        int a1 = get<0>(it->second);
+        int b1 = get<1>(it->second);
+        cout<<it->first<<" ";//<<": "<<"("<<a1<<", "<<b1<<"), ";
+    }
+    cout<<" }"<<endl;
+
+}
 tuple<int, int> solve( vector<int> nums, vector<Board> boards ){
     set<int> won;
     vector<int> wins;
     for(auto num : nums){
         for(int j = 0; j<boards.size(); j++){
-            cout<<"{ ";
-            for( map<int, tuple<int,int> >::const_iterator it = boards[j].nums.begin();it != boards[j].nums.end(); ++it){
-                int a = get<0>(it->second);
-                int b = get<1>(it->second);
-                cout<<it->first<<": "<<"("<<a<<", "<<b<<"), ";
-            }
-            cout<<" }"<<endl;
             bool is_in_win = won.find(j) != won.end();
             if(is_in_win){
                 continue;
             }
             
             boards[j].call(num);
+
             if(boards[j].has_bingo){
+                printBoardNums(boards[j]);
+                cout<<"Num : "<<num<<" US : "<<boards[j].unmarkedSum() <<endl;
                 won.insert(j);
                 wins.push_back(num*boards[j].unmarkedSum());
             }
         }
+    }
+    for(auto win:wins){
+        cout<<"WIN "<<win<<endl;
     }
     return make_tuple(wins[0],wins[wins.size()-1]);
 }
@@ -195,17 +204,20 @@ int main() {
     vector<vector<vector<int>>> boards = get<1>(data);
     // Find way to better use the memory
     vector<Board> B;
+    // for(int i = 0; i<boards.size(); i++){
+    //     Board b(boards[i]);
+    //     B.push_back(b);
+    // }
+    // tuple<int, int> result = solve(nums, C);
+    // cout<<get<0>(result)<<endl;
+    // cout<<get<1>(result)<<endl;
+
+    // Testing
     vector<Board> C;
-
-    for(int i = 0; i<boards.size(); i++){
-        Board b(boards[i]);
-        B.push_back(b);
-    }
-
-    C.push_back(B[99]);
+    Board c(boards[99]);
+    C.push_back(c);
     tuple<int, int> result = solve(nums, C);
     cout<<get<0>(result)<<endl;
     cout<<get<1>(result)<<endl;
-    //Board C(boards[0]);
     return 0;
 }

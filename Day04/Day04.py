@@ -32,6 +32,10 @@ class Board:
         # print([[int(n) for n in l.split()] for l in s.split('\n')])
         return Board([[int(n) for n in l.split()] for l in s.split('\n')])
 
+def sortDict(d):
+    for i in sorted (d.keys()) :
+        print(i, end = " ")
+
 def solve(nums: list[int], boards: list[Board]) -> tuple[int, int]:
     won: set[int] = set()
     wins: list[int] = []
@@ -40,10 +44,11 @@ def solve(nums: list[int], boards: list[Board]) -> tuple[int, int]:
         i: int
         board: Board
         for i, board in enumerate(boards):
-            print(board.nums)
             if i in won: continue
             board.call(num)
             if board.has_bingo:
+                print(sortDict(board.nums))
+                print("Num : ", num, " US : ",board.unmarked_sum)
                 won.add(i)
                 wins.append(num * board.unmarked_sum)
     return wins[0], wins[-1]
@@ -54,9 +59,12 @@ nums, *boards = open('input.txt').read().rstrip().split('\n\n')
 nums = list(map(int, nums.split(',')))
 boards = [Board.from_string(b) for b in boards]
 
-part1, part2 = solve(nums, boards)
-print(part1) # 14093
-print(part2) # 17388
+o, t = solve(nums, [boards[99]])
+print(o, t)
+
+# part1, part2 = solve(nums, boards)
+# print(part1) # 14093
+# print(part2) # 17388
 
 '''
 BOARDS ARRAY
