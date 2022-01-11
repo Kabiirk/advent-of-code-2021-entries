@@ -1,5 +1,5 @@
 vent_lines = []
-with open('input5.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         current_entry = line.strip().split(' -> ')
         x1, y1 = map(int, current_entry[0].split(','))
