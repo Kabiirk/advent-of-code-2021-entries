@@ -29,13 +29,11 @@ def draw_line(field, line):
     y2 = line[3]
 
     if(y1 == y2):
-        # Same y coord (y1 == y2)
-        #print("Hori !", line)
+        # Horizontal Line
         for i in range(min(x1, x2), max(x1,x2)+1):
             field[y1][i]+=1
     elif(x1 == x2):
-        # Same x coord (x1 == x2)
-        #print("Verti !", line)
+        # Vertical Line
         for j in range(min(y1, y2), max(y1, y2)+1):
             field[j][x1]+=1
 
@@ -66,20 +64,17 @@ def draw_line_diag(field, line):
     y1 = line[1]
     x2 = line[2]
     y2 = line[3]
-    slopey =  ( max(y1,y2) - min(y1, y2) )
-    slopex =  ( max(x1,x2) - min(x1, x2) )
 
     if(y1 == y2):
-        # Same y coord (y1 == y2)
-        #print("Hori !", line)
+        # Horizontal Line
         for i in range(min(x1, x2), max(x1,x2)+1):
             field[y1][i]+=1
     elif(x1 == x2):
-        # Same x coord (x1 == x2)
-        #print("Verti !", line)
+        # Vertical Line
         for j in range(min(y1, y2), max(y1,y2)+1):
             field[j][x1]+=1
     else:
+        # Diagonals
         xs, x, ys, y = min(x1, x2),\
                        max(x1, x2), \
                        [y1, y2][x1 > x2],\
