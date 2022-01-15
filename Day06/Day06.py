@@ -1,6 +1,6 @@
 from collections import Counter # for Part 2
 
-with open('input6.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         starting_fish = line.strip().split(',')
 
