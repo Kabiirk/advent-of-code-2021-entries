@@ -28,6 +28,15 @@ vector<int> readFile(string filename){
     return initial_fish;
 }
 
+int grow(map<int, int> starting_fish, int max_days ){
+    int sum = 0;
+    for(int i = 0; i<max_days; i++){
+        sum+=0;
+    }
+
+    return sum;
+}
+
 int main() {
     vector<int> initial_fish = readFile("input.txt");
     
