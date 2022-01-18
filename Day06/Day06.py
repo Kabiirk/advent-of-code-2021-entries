@@ -17,6 +17,8 @@ def grow( fishes, max_days ):
 # Part 1
 c1 = Counter(starting_fish)
 data = [c1[i] for i in range(9)]
+print(c1)
+print(data)
 print(grow(data, 80)) # 343441
 
 # Part 2
