@@ -24,4 +24,6 @@ print(grow(data, 80)) # 343441
 # Part 2
 c2 = Counter(starting_fish)
 data = [c2[i] for i in range(9)]
+print(c2)
+print(data)
 print(grow(data, 256)) # 1569108373832
