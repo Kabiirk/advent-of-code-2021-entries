@@ -2,9 +2,9 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <map>
+#include <algorithm> // for rotate()
 
-typedef unsigned long long ULL;
+using ULL = unsigned long long ;
 
 using namespace std;
 
@@ -19,7 +19,7 @@ vector<ULL> readFile(string filename){
             while(ss.good()){
                 string substr;
                 getline(ss, substr, ',');
-                i_fish[stoull(substr)]+=1;
+                i_fish[stoull(substr)]++;
             }
         }
     }
@@ -28,6 +28,13 @@ vector<ULL> readFile(string filename){
     }    
     
     return i_fish;
+}
+
+void printStructure(vector<ULL> v){
+    for (auto itr : v) {
+        cout << itr <<", ";
+    }
+    cout<<endl;
 }
 
 ULL addElements(vector<ULL> v){
@@ -42,41 +49,24 @@ ULL addElements(vector<ULL> v){
 ULL grow(vector<ULL> fishes, int max_days ){
     ULL sum = 0;
     for(int i = 0; i<max_days; i++){
-        // ~ fishes.pop(0)
-        int front = *fishes.begin();
-        fishes.erase(fishes.begin());
-
-        fishes.push_back(front);
-        fishes[6] += fishes.back();
+        // instead of fishes.append(fishes.pop(0))
+        // we rotate the vector to the left by 1 index
+        rotate( fishes.begin(), fishes.begin() + 1, fishes.end() );
+        fishes[6] += fishes[8];
     }
 
     return addElements(fishes);
 }
 
-void printStructure(vector<ULL> v){
-    for (auto itr : v) {
-        cout << itr <<", ";
-    }
-    cout<<endl;
-}
-
 int main() {
-    //vector<int> initial_fish = readFile("input.txt");
     vector<ULL> i_fish = readFile("input.txt");
     vector<ULL> i_fish2(i_fish);
-    cout<<grow(i_fish, 80)<<endl; // 343441
-    cout<<grow(i_fish, 256)<<endl;
-    // 1569108373832
-    // 18446744062269960520
 
-    // vector<int> v = {1,2,3,4,5,6,7};
-    // cout<<*v.begin()<<endl;
-    // printStructure(v);
-    // v.push_back(*v.begin());
-    // v.erase(v.begin());
-    // printStructure(v);
-    // cout<<*v.begin()<<endl;
-    
+    // Part 1
+    cout<<grow(i_fish, 80)<<endl; // 343441
+
+    // Part 2
+    cout<<grow(i_fish2, 256)<<endl; // 1569108373832
 
     return 0;
 }
