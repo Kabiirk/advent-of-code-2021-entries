@@ -1,6 +1,6 @@
 import math # for using infinity
 
-with open('input7.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         crab_positions = line.strip().split(',')
 
