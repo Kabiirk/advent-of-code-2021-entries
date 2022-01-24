@@ -1,7 +1,7 @@
 
 ### **--- 07: ---**
 
-> **My Answer :**
+> **My Answer : 347449**
 
 [Code]()
  
@@ -9,7 +9,7 @@
  
 ### **--- 07: (Part Two) ---**
 
-> **My Answer :**
+> **My Answer : 98039527**
 
 [Code]()
 
