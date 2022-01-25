@@ -34,11 +34,11 @@ vector<ULL> readFile(string filename){
 
 ULL least_fuel_configuration(vector<ULL> positions, bool part_two){
     // because using infinity in C++ can be risky :)
-    // this sets it to the max value int can have
+    // this sets it to the max value this type of variable can have
     ULL least_fuel = numeric_limits<ULL>::max();
     int max = *max_element(positions.begin(), positions.end());
     int min = *min_element(positions.begin(), positions.end());
-    
+
     for(int i = min; i<max+1; i++){
         ULL current_fuel = 0;
         for(int position : positions){
