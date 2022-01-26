@@ -1,5 +1,5 @@
 entries  = []
-with open('input8.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         temp = line.strip().split(' | ')
         signal_pattern = temp[0].split(' ')
@@ -59,7 +59,7 @@ def get_output_values(right_hand_values, nums):
     return output_num
 
 def main():
-    with open('input8.txt','r') as infile:
+    with open('input.txt','r') as infile:
         display_values = [(sides[0].split(),sides[1].split()) for sides in (line.strip().split(" | ") for line in infile.readlines())]
 
     total = 0

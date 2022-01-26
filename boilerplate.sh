@@ -15,6 +15,7 @@ mkdir Day$1/
 
 echo "#include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
