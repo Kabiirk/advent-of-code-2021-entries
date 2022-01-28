@@ -24,5 +24,8 @@ int main() {
 
     printVector(i);
     printVector(s);
+    string a1 = "1,2,3,4,7,8";
+    vector<unsigned long long> a = splitToVector(a1);
+    printVector(a);
     return 0;
 }
