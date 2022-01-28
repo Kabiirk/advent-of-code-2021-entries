@@ -28,7 +28,7 @@ T printVector( std::vector<T> vec){
 }
 
 
-std::vector<ULL> splitToVector(std::string line){
+std::vector<ULL> splitToVectorULL(std::string line){
     int a = 0;
     std::vector<ULL> output_vector;
     std::stringstream ss(line);
@@ -36,6 +36,34 @@ std::vector<ULL> splitToVector(std::string line){
         std::string substr;
         getline(ss, substr, ',');
         output_vector.push_back(stoull(substr));
+    }
+
+    return output_vector;
+}
+
+
+std::vector<UL> splitToVectorUL(std::string line){
+    int a = 0;
+    std::vector<UL> output_vector;
+    std::stringstream ss(line);
+    while(ss.good()){
+        std::string substr;
+        getline(ss, substr, ',');
+        output_vector.push_back(stoul(substr));
+    }
+
+    return output_vector;
+}
+
+
+std::vector<long> splitToVectorLong(std::string line){
+    int a = 0;
+    std::vector<long> output_vector;
+    std::stringstream ss(line);
+    while(ss.good()){
+        std::string substr;
+        getline(ss, substr, ',');
+        output_vector.push_back(stol(substr));
     }
 
     return output_vector;

@@ -25,7 +25,11 @@ int main() {
     printVector(i);
     printVector(s);
     string a1 = "1,2,3,4,7,8";
-    vector<unsigned long long> a = splitToVector(a1);
+    vector<unsigned long long> a = splitToVectorULL(a1);
+    vector<unsigned long> b = splitToVectorUL(a1);
+    vector<long> c = splitToVectorLong(a1);
     printVector(a);
+    printVector(b);
+    printVector(c);
     return 0;
 }
