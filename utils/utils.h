@@ -68,3 +68,12 @@ std::vector<long> splitToVectorLong(std::string line){
 
     return output_vector;
 }
+
+template <typename I, typename J>
+void printMap(std::map<I,J> m){
+    cout<<"{"<<endl;
+    for(map<I,J>::const_iterator it = m.begin(); it != m.end(); ++it){
+        std::cout<<it->first <<" : "<<it->second<<std::endl;
+    }
+    cout<<"}"<<endl;
+}
