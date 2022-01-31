@@ -18,18 +18,7 @@ void readFile(string filename){
 }
 
 int main() {
-    //readFile("input.txt");
-    vector<int> i = {1,2,3,4,5};
-    vector<string> s = {"1","2","3","4","7"};
-
-    printVector(i);
-    printVector(s);
-    string a1 = "1,2,3,4,7,8";
-    vector<unsigned long long> a = splitToVectorULL(a1);
-    vector<unsigned long> b = splitToVectorUL(a1);
-    vector<long> c = splitToVectorLong(a1);
-    printVector(a);
-    printVector(b);
-    printVector(c);
+    readFile("input.txt");
+    
     return 0;
 }
