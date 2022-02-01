@@ -25,8 +25,25 @@ int main(){
     printVector(c);
 
     // Testing printMap()
-    map<string, int> m = {{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
-    printMap(m);
+    map<string, int> m1 = {{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};
+    printMap(m1);
+
+    int x1;
+    cout<< type_name<decltype(x1)>() <<endl;
+    char x2;
+    cout<< type_name<decltype(x2)>() <<endl;
+    // works when these variables are printed individually
+    // but causing segmentation fault when printing them all
+    // together
+    //
+    // bool x3;
+    // cout<< type_name<decltype(x3)>() <<endl;
+    // float x4;
+    // cout<< type_name<decltype(x4)>() <<endl;
+    double x5;
+    cout<< type_name<decltype(x5)>() <<endl;
+    vector<int> x;
+    cout<< type_name<decltype(x)>() <<endl;
 
     return 0;
 }

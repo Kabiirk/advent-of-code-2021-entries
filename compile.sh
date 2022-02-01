@@ -11,6 +11,11 @@ fi
 #     exit 1
 # fi
 
+if [ $1 = "test_utils" ]; then
+    C:/MinGW/bin/g++ utils/$1.cpp -o utils/$1.exe
+    exit 1
+fi
+
 cd Day$1/
 
 C:/MinGW/bin/g++ Day$1.cpp -o Day$1.exe
