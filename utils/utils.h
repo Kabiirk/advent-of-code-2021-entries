@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 /*
 for type()
@@ -22,23 +23,24 @@ typedef unsigned long long int ULLI;
 typedef unsigned long long ULL;
 typedef unsigned long UL;
 
-
-bool StringIn(std::string s, std::vector<std::string> vec){
+template <typename A>
+bool ElementIn(const A s, std::vector<A> vec){
     /*
-    Determins whether a string is present in vector<string>
-    * Returns True if string is present in vector
-    * Returns False Otherwise
-
+    Determins whether a string or integer is present in vector<string>
+    or in a vector<int> respectively
+        * Returns True if string is present in vector
+        * Returns False Otherwise
+    
     TODO :
-        1. Implement faster algorithm for this,
-           current implementation takes O(n) time.
-        2. Vectors have a in-built, albeit more verbose way to do this
-           utilize that maybe ?
+        1. When comparing with strings like "1", "a", "element" when passing directly into funciton
+           gives error "no instance of function template "ElementIn" matches the argument list -- argument types are: (const char [2], std::vector<std::string, std::allocator<std::string>>)"
+           while writing ElementIn("1", string_vector ) so we have to do -> ElementIn((string)"1", string_vector) 
+           Some reference for way forward : https://stackoverflow.com/questions/17111140/string-in-function-parameter
+        2. Write Code to handle incorrect parameters (wrong vector, looking for int in vector<string> etc.)
     */
-    for(auto v : vec){
-        if(v == s){
-            return true;
-        }
+    if (std::find(vec.begin(), vec.end(), s) != vec.end())
+    {
+        return true;
     }
     return false;
 }

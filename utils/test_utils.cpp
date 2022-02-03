@@ -11,7 +11,7 @@ using namespace std;
 int main(){
     // Testing printVector()
     vector<int> i = {1,2,3,4,5};
-    vector<string> s = {"1","2","3","4","7"};
+    vector<string> s = {"1","2","3","4","7","element"};
     printVector(i);
     printVector(s);
 
@@ -46,8 +46,11 @@ int main(){
     cout<< type_name<decltype(x)>() <<endl;
 
     // Test StringIn()
-    cout<<StringIn("4", s)<<endl;
-    cout<<StringIn("5", s)<<endl;
+    string to_find = "element";
+    cout<<ElementIn(to_find, s)<<endl;
+    cout<<ElementIn((string)"5", s)<<endl;
+    cout<<ElementIn(5, i)<<endl;
+    cout<<ElementIn(50, i)<<endl;
 
     return 0;
 }
