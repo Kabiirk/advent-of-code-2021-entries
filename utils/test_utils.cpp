@@ -45,5 +45,9 @@ int main(){
     vector<int> x;
     cout<< type_name<decltype(x)>() <<endl;
 
+    // Test StringIn()
+    cout<<StringIn("4", s)<<endl;
+    cout<<StringIn("5", s)<<endl;
+
     return 0;
 }

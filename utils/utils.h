@@ -23,10 +23,31 @@ typedef unsigned long long ULL;
 typedef unsigned long UL;
 
 
+bool StringIn(std::string s, std::vector<std::string> vec){
+    /*
+    Determins whether a string is present in vector<string>
+    * Returns True if string is present in vector
+    * Returns False Otherwise
+
+    TODO :
+        1. Implement faster algorithm for this,
+           current implementation takes O(n) time.
+        2. Vectors have a in-built, albeit more verbose way to do this
+           utilize that maybe ?
+    */
+    for(auto v : vec){
+        if(v == s){
+            return true;
+        }
+    }
+    return false;
+}
+
 template <typename T>
 T printVector( std::vector<T> vec){
     /*
     Prints vector of any type
+    
     TODO :
         1. Ability to print vector having data-type like 
            pairs etc.
