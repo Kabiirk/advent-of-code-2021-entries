@@ -5,7 +5,7 @@ with open('input.txt', 'r') as f:
         signal_pattern = temp[0].split(' ')
         outputs = temp[1].split(' ')
         entries.append([signal_pattern, outputs])
-
+print(entries)
 
 # Part 1
 unique_digit_count = 0
