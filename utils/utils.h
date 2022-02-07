@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <set>
 
 /*
 for type()
@@ -15,7 +16,7 @@ Ref.: https://stackoverflow.com/questions/81870/is-it-possible-to-print-a-variab
 #   include <cxxabi.h>
 #endif
 #include <memory>
-#include <string>
+// #include <string>
 #include <cstdlib>
 
 
@@ -23,98 +24,10 @@ typedef unsigned long long int ULLI;
 typedef unsigned long long ULL;
 typedef unsigned long UL;
 
-template <typename A>
-bool ElementIn(const A s, std::vector<A> vec){
-    /*
-    Determins whether a string or integer is present in vector<string>
-    or in a vector<int> respectively
-        * Returns True if string is present in vector
-        * Returns False Otherwise
-    
-    TODO :
-        1. When comparing with strings like "1", "a", "element" when passing directly into funciton
-           gives error "no instance of function template "ElementIn" matches the argument list -- argument types are: (const char [2], std::vector<std::string, std::allocator<std::string>>)"
-           while writing ElementIn("1", string_vector ) so we have to do -> ElementIn((string)"1", string_vector) 
-           Some reference for way forward : https://stackoverflow.com/questions/17111140/string-in-function-parameter
-        2. Write Code to handle incorrect parameters (wrong vector, looking for int in vector<string> etc.)
-    */
-    if (std::find(vec.begin(), vec.end(), s) != vec.end())
-    {
-        return true;
-    }
-    return false;
-}
 
-template <typename T>
-T printVector( std::vector<T> vec){
-    /*
-    Prints vector of any type
-    
-    TODO :
-        1. Ability to print vector having data-type like 
-           pairs etc.
-        2. Print Multi-dimensional vectors
-    */
-
-    std::cout<<"< ";
-    for(auto it : vec){
-        std::cout<<it<<" ";
-    }
-    std::cout<<">";
-    std::cout<<std::endl;
-}
-
-
-std::vector<ULL> splitToVectorULL(std::string line){
-    int a = 0;
-    std::vector<ULL> output_vector;
-    std::stringstream ss(line);
-    while(ss.good()){
-        std::string substr;
-        getline(ss, substr, ',');
-        output_vector.push_back(stoull(substr));
-    }
-
-    return output_vector;
-}
-
-
-std::vector<UL> splitToVectorUL(std::string line){
-    int a = 0;
-    std::vector<UL> output_vector;
-    std::stringstream ss(line);
-    while(ss.good()){
-        std::string substr;
-        getline(ss, substr, ',');
-        output_vector.push_back(stoul(substr));
-    }
-
-    return output_vector;
-}
-
-
-std::vector<long> splitToVectorLong(std::string line){
-    int a = 0;
-    std::vector<long> output_vector;
-    std::stringstream ss(line);
-    while(ss.good()){
-        std::string substr;
-        getline(ss, substr, ',');
-        output_vector.push_back(stol(substr));
-    }
-
-    return output_vector;
-}
-
-template <typename I, typename J>
-void printMap(std::map<I,J> m){
-    std::cout<<"{"<<std::endl;
-    for(auto it = m.begin(); it != m.end(); ++it){
-        std::cout<<"    "<<it->first <<" : "<<it->second<<std::endl;
-    }
-    std::cout<<"}"<<std::endl;
-}
-
+// #######################################################################
+// Miscellaneous Methods
+// #######################################################################
 template <class T>
 std::string
 type_name(){
@@ -146,4 +59,133 @@ type_name(){
         r += "&&";
 
     return r;
+}
+
+
+// #######################################################################
+// Vector Related Methods
+// #######################################################################
+template <typename A>
+bool ElementIn(const A s, std::vector<A> vec){
+    /*
+    Determins whether a string or integer is present in vector<string>
+    or in a vector<int> respectively
+        * Returns True if string is present in vector
+        * Returns False Otherwise
+
+    TODO :
+        1. When comparing with strings like "1", "a", "element" when passing directly into funciton
+           gives error "no instance of function template "ElementIn" matches the argument list -- argument types are: (const char [2], std::vector<std::string, std::allocator<std::string>>)"
+           while writing ElementIn("1", string_vector ) so we have to do -> ElementIn((string)"1", string_vector)
+           Some reference for way forward : https://stackoverflow.com/questions/17111140/string-in-function-parameter
+        2. Write Code to handle incorrect parameters (wrong vector, looking for int in vector<string> etc.)
+    */
+    if (std::find(vec.begin(), vec.end(), s) != vec.end())
+    {
+        return true;
+    }
+    return false;
+}
+
+template <typename T>
+T printVector( std::vector<T> vec){
+    /*
+    Prints vector of any type
+
+    TODO :
+        1. Ability to print vector having data-type like
+           pairs etc.
+        2. Print Multi-dimensional vectors
+    */
+
+    std::cout<<"< ";
+    for(auto it : vec){
+        std::cout<<it<<" ";
+    }
+    std::cout<<">";
+    std::cout<<std::endl;
+}
+
+std::vector<ULL> splitToVectorULL(std::string line){
+    int a = 0;
+    std::vector<ULL> output_vector;
+    std::stringstream ss(line);
+    while(ss.good()){
+        std::string substr;
+        getline(ss, substr, ',');
+        output_vector.push_back(stoull(substr));
+    }
+
+    return output_vector;
+}
+
+std::vector<UL> splitToVectorUL(std::string line){
+    int a = 0;
+    std::vector<UL> output_vector;
+    std::stringstream ss(line);
+    while(ss.good()){
+        std::string substr;
+        getline(ss, substr, ',');
+        output_vector.push_back(stoul(substr));
+    }
+
+    return output_vector;
+}
+
+std::vector<long> splitToVectorLong(std::string line){
+    int a = 0;
+    std::vector<long> output_vector;
+    std::stringstream ss(line);
+    while(ss.good()){
+        std::string substr;
+        getline(ss, substr, ',');
+        output_vector.push_back(stol(substr));
+    }
+
+    return output_vector;
+}
+
+
+// #######################################################################
+// Map Related Methods
+// #######################################################################
+template <typename I, typename J>
+void printMap(std::map<I,J> m){
+    std::cout<<"{ ";
+    for(auto it = m.begin(); it != m.end(); ++it){
+        std::cout<<it->first <<":"<<it->second<<"; ";
+    }
+    std::cout<<"}"<<std::endl;
+}
+
+
+// #######################################################################
+// Set Related Methods
+// #######################################################################
+std::set<std::string> stringToSet(std::string str){
+    /*
+    Takes a string and returns a set of distinct characters in the string.
+
+    E.g. : stringToSet("Hello") returns :
+           set s = { "H", "e", "l", "o" }
+    */
+    std::set<std::string> str_set;
+    for(char s : str){
+        str_set.insert(std::string{s});
+    }
+
+    return str_set;
+}
+
+template <class A>
+bool isSubset(std::set<A> s1, std::set<A> s2){
+    /*
+    Checks if s2 is a subset of s1
+        * Returns True if s2 is a subset of s1
+        * Returns False Otherwise
+    */
+    if(std::includes(s1.begin(), s1.end(), s2.begin(), s2.end())){
+        return true;
+    }
+    return false;
 }
