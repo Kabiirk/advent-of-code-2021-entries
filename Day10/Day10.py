@@ -1,5 +1,5 @@
 sub_system  = []
-with open('input10.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         # because strings re immutable in python
         # line =  line.replace('{', 'a')
