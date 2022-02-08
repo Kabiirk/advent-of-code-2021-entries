@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ using namespace std;
 
 int main(){
     // Testing printVector()
-    vector<int> i = {1,2,3,4,5};
+    vector<int> i = {1,2,3,4,5,79};
     vector<string> s = {"1","2","3","4","7","element"};
     printVector(i);
     printVector(s);
@@ -23,6 +24,13 @@ int main(){
     printVector(a);
     printVector(b);
     printVector(c);
+
+    // Testing maxElement()
+    cout<<maxElement(i)<<endl;
+
+    // Testing sumOfVecElements()
+    vector<int> i2 = {1,2,3,4,5,79};
+    cout<<sumOfVecElements(i2)<<endl;
 
     // Testing printMap()
     map<string, int> m1 = {{"a", 1}, {"b", 2}, {"c", 3}, {"d", 4}};

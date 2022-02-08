@@ -69,7 +69,7 @@ for i in range(0, n):
             top = entries[i][j] < entries[i-1][j]
             left = entries[i][j] < entries[i][j-1]
             right = entries[i][j] < entries[i][j+1]
-            if(check_lowpoint([top, left, bottom, right])):
+            if(check_lowpoint([top, left, right])):
                 low_points.append(entries[i][j])
                 low_points_coord.append((i,j))
 
@@ -91,7 +91,7 @@ for i in range(0, n):
                 low_points.append(entries[i][j])
                 low_points_coord.append((i,j))
 
-print(sum(low_points) + len(low_points))
+print(sum(low_points) + len(low_points))# 566
 
 
 # Part 2
@@ -119,4 +119,4 @@ for i in range(3):
     basins.remove(maximum)
     #print(maximum)
     prod *=maximum
-print(prod)
+print(prod)# 891684

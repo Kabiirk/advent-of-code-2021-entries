@@ -87,6 +87,25 @@ bool ElementIn(const A s, std::vector<A> vec){
     return false;
 }
 
+int sumOfVecElements(std::vector<int> vec){
+    /*
+    Returns sum(type int) of all elements in a vector<int>
+    */
+    int sum = 0;
+    for(auto i : vec){
+        sum+=i;
+    }
+
+    return sum;
+}
+
+template <typename S>
+S maxElement(std::vector<S> v){
+    S max_elem = *max_element(v.begin(), v.end());
+
+    return max_elem;
+}
+
 template <typename T>
 T printVector( std::vector<T> vec){
     /*
