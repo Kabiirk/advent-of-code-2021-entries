@@ -87,6 +87,18 @@ bool ElementIn(const A s, std::vector<A> vec){
     return false;
 }
 
+template <typename B>
+std::vector<std::pair<int, B>> vecEnumerate(std::vector<B> vec, int start=0){
+    int i = start;
+    std::vector<std::pair<int, B>> v;
+    for(auto it : vec){
+        v.push_back(make_pair(i, it));
+        i++;
+    }
+
+    return v;
+}
+
 int sumOfVecElements(std::vector<int> vec){
     /*
     Returns sum(type int) of all elements in a vector<int>
@@ -123,6 +135,15 @@ T printVector( std::vector<T> vec){
     }
     std::cout<<">";
     std::cout<<std::endl;
+}
+
+template <typename S, typename T>
+void printVecPair(std::vector<std::pair<S, T>> vec){
+    std::cout<<"< ";
+    for(auto i : vec){
+        std::cout<<"("<<i.first<<","<<i.second<<") ";
+    }
+    std::cout<<">"<<std::endl;
 }
 
 std::vector<ULL> splitToVectorULL(std::string line){

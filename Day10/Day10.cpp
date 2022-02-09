@@ -24,6 +24,8 @@ vector<string> readFile(string filename){
 
 int main() {
     vector<string> sub_system = readFile("input.txt");
+    map<char, char> pairs = { {'(',')'}, {'[',']'}, {'{','}'}, {'<','>'} };
+    map<char, int> points = { {')', 3}, {']', 57}, {'}', 1197}, {'>', 25137} };
 
     // Part 1// 387363
     // Part 2// 4330777059

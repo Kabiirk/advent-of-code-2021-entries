@@ -50,7 +50,6 @@ s = s.replace('}', 'b')
 # print(first_illegal_character(s))
 
 from collections import deque
-import fileinput
 
 pairs = {"(": ")", "[": "]", "{": "}", "<": ">"}
 points = {")": 3, "]": 57, "}": 1197, ">": 25137}

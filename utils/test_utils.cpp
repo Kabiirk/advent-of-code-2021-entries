@@ -52,6 +52,8 @@ int main(){
     cout<< type_name<decltype(x5)>() <<endl;
     vector<int> x;
     cout<< type_name<decltype(x)>() <<endl;
+    pair<int, int> p = {1, 2};
+    cout<< type_name<decltype(p)>() <<endl;
 
     // Test StringIn()
     string to_find = "element";
@@ -59,6 +61,9 @@ int main(){
     cout<<ElementIn((string)"5", s)<<endl;
     cout<<ElementIn(5, i)<<endl;
     cout<<ElementIn(50, i)<<endl;
+
+    vector<pair<int, string>> v = vecEnumerate(s);
+    printVecPair(v);
 
     return 0;
 }
