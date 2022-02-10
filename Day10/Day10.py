@@ -73,4 +73,6 @@ for line in sub_system:
 print(part1) # 387363
 
 # Part 2
+print(len(part2))
+print(part2)
 print(sorted(part2)[len(part2) // 2]) # 4330777059

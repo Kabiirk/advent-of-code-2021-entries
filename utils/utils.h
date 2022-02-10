@@ -62,6 +62,15 @@ type_name(){
 }
 
 
+template <typename B>
+void printDeque(std::deque<B> dq){
+    std::cout<<"[ ";
+    for(auto it : dq){
+        std::cout<<it<<" ";
+    }
+    std::cout<<"]"<<std::endl;
+}
+
 // #######################################################################
 // Vector Related Methods
 // #######################################################################
