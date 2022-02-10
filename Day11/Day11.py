@@ -1,4 +1,4 @@
-real_input = open("input11.txt").read().splitlines()
+real_input = open("input.txt").read().splitlines()
 grid = {(m, n): int(c) for m, line in enumerate(real_input) for n, c in enumerate(line)}
 
 def inc_neighbours(grid, m, n):
