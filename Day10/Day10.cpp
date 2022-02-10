@@ -66,7 +66,7 @@ int findErrorScore(string line){
     return 0;
 }
 
-int32_t findCompletionScore(string line){
+int64_t findCompletionScore(string line){
     stack<char> parentheses;
     for(char c : line){
         switch(c){
@@ -105,7 +105,7 @@ int32_t findCompletionScore(string line){
         }
     }
     // to handle if line has no errors i.e isn't corrupted;
-    int32_t completion_score = 0;
+    int64_t completion_score = 0;
     while(!parentheses.empty()){
         completion_score *= 5;
         switch (parentheses.top()){
@@ -136,18 +136,15 @@ int partOne(vector<string> lines){
     return total_error_score;
 }
 
-int32_t partTwo(vector<string> lines){
-    vector<int32_t> total_completion_scores;
+int64_t partTwo(vector<string> lines){
+    vector<int64_t> total_completion_scores;
     for(auto line : lines){
-        int32_t completion_score = findCompletionScore(line);
+        int64_t completion_score = findCompletionScore(line);
         if(completion_score == 0) continue;
         total_completion_scores.push_back(completion_score);
     }
-
     sort(total_completion_scores.begin(), total_completion_scores.end());
 
-    cout<<total_completion_scores.size()<<endl;
-    printVector(total_completion_scores);
     return total_completion_scores[total_completion_scores.size()/2];
 }
 
@@ -155,40 +152,12 @@ int32_t partTwo(vector<string> lines){
 
 int main() {
     vector<string> sub_system = readFile("input.txt");
-    // map<char, int> points = { {')', 3}, {']', 57}, {'}', 1197}, {'>', 25137} };
-    // map<char, char> pairs = { {'(',')'}, {'[',']'}, {'{','}'}, {'<','>'} };
-    // string open_bracket = "([{<";
-    // string close_bracket = ")]}>";
-    // unsigned long long int part1 = 0;
-    // vector<unsigned long long int> part2;
-
-    // for(string line : sub_system){
-    //     deque<char> stack;
-    //     for(char c : line){
-    //         if(open_bracket.find(c) != string::npos){
-    //             stack.push_front(pairs[c]);
-    //         }
-    //         else if(c != stack.front()){
-    //             stack.pop_front();
-    //             part1 += points[c];
-    //             break;
-    //         }
-    //         // else{
-    //         //     unsigned long long int score = 0;
-    //         //     for(auto d : stack){
-    //         //         score = ((score * 5) + close_bracket.find(d)) + 1;
-    //         //     }
-    //         //     part2.push_back(score);
-    //         // }
-    //     }
-    // }
 
     // Part 1
     cout<<partOne(sub_system)<<endl;// 387363
 
-    // Part 2// 4330777059
-             // 337301424
-    cout<<partTwo(sub_system)<<endl;
+    // Part 2
+    cout<<partTwo(sub_system)<<endl;// 4330777059
 
     return 0;
 }
