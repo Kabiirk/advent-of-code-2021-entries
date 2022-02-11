@@ -1,9 +1,7 @@
 caves  = []
-with open('input12.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         caves.append( line.strip().split('-') )
-
-# print(caves)
 
 # Basic DFS
 graph = {}

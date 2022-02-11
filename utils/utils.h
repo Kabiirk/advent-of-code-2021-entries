@@ -72,6 +72,16 @@ void printDeque(std::deque<B> dq){
     std::cout<<"]"<<std::endl;
 }
 
+bool isLowerString(std::string s) {
+    bool is_lower = true;
+
+    for(char it : s){
+        if(isupper(int(it))){
+            return false;
+        } 
+    }
+}
+
 // #######################################################################
 // Vector Related Methods
 // #######################################################################
