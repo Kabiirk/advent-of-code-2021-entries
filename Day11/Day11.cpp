@@ -13,7 +13,7 @@ typedef map<pair<int, int>, int> GRID;
 typedef pair<int, int> COORDINATES;
 
 
-map<pair<int, int>, int> readFile(string filename){
+GRID readFile(string filename){
     /*
     Desired Grid Map:
     {
@@ -31,7 +31,7 @@ map<pair<int, int>, int> readFile(string filename){
     */
     string line;
     ifstream myfile (filename);
-    map<pair<int, int>, int> grid;
+    GRID grid;
 
     int m = 0;
     if (myfile.is_open()){
@@ -71,7 +71,7 @@ void printSet(set<COORDINATES> s){
     cout<<"}"<<endl;
 }
 
-void inc_neighbours(map<COORDINATES, int> grid, int m, int n){
+void inc_neighbours(map<COORDINATES, int> &grid, int m, int n){
     vector<pair<int, int>> neighbours_incs = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
     for(auto neighbour : neighbours_incs){
         COORDINATES temp_pair(m+neighbour.first, n+neighbour.second);
@@ -81,8 +81,7 @@ void inc_neighbours(map<COORDINATES, int> grid, int m, int n){
     }
 }
 
-pair< set<COORDINATES>, GRID > flash(GRID grid, set<COORDINATES> already_flashed){
-    GRID next_grid(grid); // copy grid to next_grid
+void flash(GRID& grid, set<COORDINATES>& already_flashed){
     while(true){
         set<COORDINATES> flashed_now;
         for(map<COORDINATES, int>::const_iterator item = grid.begin(); item != grid.end(); ++item){
@@ -92,78 +91,61 @@ pair< set<COORDINATES>, GRID > flash(GRID grid, set<COORDINATES> already_flashed
             bool b = already_flashed.find(current_coords) != already_flashed.end();
             if( a && !b ){
                 flashed_now.insert(current_coords);
-                inc_neighbours(next_grid, current_coords.first, current_coords.second);
+                inc_neighbours(grid, current_coords.first, current_coords.second);
             }
         }
         if(flashed_now.empty()){
             break;
         }
-        grid = next_grid;
         already_flashed.insert(flashed_now.begin(), flashed_now.end());
-
-        pair< set<COORDINATES>, GRID > result(already_flashed, next_grid);
-        return result;
     }
 }
 
-pair<int, GRID> step(GRID grid){
-    set<COORDINATES> already_flashed;
-    for(auto ind : grid){
-        ind.second++;
+void incrementGridValues(GRID& grid){
+    // Increment by iterator for loop not working
+    // for some reason
+    // TODO : Remove hard-coding of limits
+    for(int i = 0; i<10; i++){
+        for(int j = 0; j<10; j++){
+            grid[make_pair(i, j)]++;
+        }
     }
-    pair< set<COORDINATES>, GRID > temp = flash(grid, already_flashed);
-    for(auto coord : temp.first){
-        temp.second[coord] = 0;
-    }
+}
 
-    // pair<int, GRID> result(already_flashed.size(), grid);
-    return make_pair(temp.first.size(), temp.second);
+void step(GRID &grid, set<COORDINATES> &already_flashed){
+    incrementGridValues(grid);
+
+    flash(grid, already_flashed);
+
+    for(auto flashed_coord : already_flashed){
+            grid[flashed_coord] = 0;
+    }
 }
 
 int main() {
-    map<pair<int, int>, int> grid = readFile("input.txt");
-    int part1; 
+    GRID grid = readFile("input.txt");
+    int part1=0; 
     int part2=1; // optional, we can just std::cout function result
 
     int total = 0;
-    for(int i=0; i<100; i++){
-        pair<int, GRID> temp_res = step(grid);
-        int flashes = temp_res.first;
-        GRID grid = temp_res.second;
-        total+=flashes;
-        printGrid(temp_res.second);
+    for(int i=0; i<1000; i++){
+        set<COORDINATES> already_flashed;
+        step(grid, already_flashed);
+        total+=already_flashed.size();
         if(i==99){
             part1 = total;
         }
-        if(flashes == grid.size()){
+        if(already_flashed.size() == grid.size()){
             part2 = i+1;
             break;
         }
     }
 
     // Part 1
-    cout<<part1<<endl;//1739
-    // Part 2
-    cout<<part2<<endl;//324
+    cout<<part1<<endl;// 1739
 
-    // TEST
-    // printGrid(grid);
-    // COORDINATES c(0,1);
-    // COORDINATES d(0,0);
-    // set<COORDINATES> s;
-    // s.insert(c);
-    // s.insert(d);
-    // cout<<grid[c]<<endl;
-    // bool v1 = s.find(c)!=s.end();
-    // cout<<v1<<endl;
-    // COORDINATES e(1,0);
-    // bool v2 = s.find(e)!=s.end();
-    // cout<<v2<<endl;
-    // printSet(s);
-    // cout<<"===="<<endl;
-    // for(auto i : s){
-    //     cout<<grid[i]<<endl;
-    // }
+    // Part 2
+    cout<<part2<<endl;// 324
 
     return 0;
 }

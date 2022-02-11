@@ -26,6 +26,8 @@ def step(grid):
     for ind in grid: grid[ind] += 1
     for already_flashed, grid in flash(grid, already_flashed): pass
     for ind in already_flashed: grid[ind] = 0
+    print(grid)
+    print(len(already_flashed))
     return len(already_flashed), grid
 
 total = 0
