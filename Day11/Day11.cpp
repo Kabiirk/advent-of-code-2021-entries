@@ -2,9 +2,16 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
+#include <set>
+#include <algorithm> // for copy()
 #include "../utils/utils.h"
 
 using namespace std;
+
+typedef map<pair<int, int>, int> GRID;
+typedef pair<int, int> COORDINATES;
+
 
 map<pair<int, int>, int> readFile(string filename){
     /*
@@ -44,19 +51,119 @@ map<pair<int, int>, int> readFile(string filename){
 }
 
 // Helper function specifically for this problem
-void printGrid(map<pair<int, int>, int> grid){
-    for (map<pair<int, int>, int>::const_iterator itr = grid.begin(); itr != grid.end(); ++itr) {
-        cout << "(" <<itr->first.first<<","<<itr->first.second<<")" << ":" << itr->second<<" ";
+void printGrid(map<COORDINATES, int> grid, bool pretty=false){
+    for (map<COORDINATES, int>::const_iterator itr = grid.begin(); itr != grid.end(); ++itr) {
+        if(pretty){
+            cout << "(" <<itr->first.first<<","<<itr->first.second<<")" << ":" << itr->second<<" ";
+        }
+        else{
+            cout<< itr->second<<" ";
+        }
     }
     cout<<endl;
 }
 
+void printSet(set<COORDINATES> s){
+    cout<<"{ ";
+    for(auto it : s){
+        cout<<"("<<it.first<<","<<it.second<<")";
+    }
+    cout<<"}"<<endl;
+}
+
+void inc_neighbours(map<COORDINATES, int> grid, int m, int n){
+    vector<pair<int, int>> neighbours_incs = { {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} };
+    for(auto neighbour : neighbours_incs){
+        COORDINATES temp_pair(m+neighbour.first, n+neighbour.second);
+        if( grid.find(temp_pair) != grid.end() ){
+            grid[temp_pair] += 1;
+        }
+    }
+}
+
+pair< set<COORDINATES>, GRID > flash(GRID grid, set<COORDINATES> already_flashed){
+    GRID next_grid(grid); // copy grid to next_grid
+    while(true){
+        set<COORDINATES> flashed_now;
+        for(map<COORDINATES, int>::const_iterator item = grid.begin(); item != grid.end(); ++item){
+            COORDINATES current_coords = item->first;// (m,n)
+            int v = item->second;// integer
+            bool a = v>9;
+            bool b = already_flashed.find(current_coords) != already_flashed.end();
+            if( a && !b ){
+                flashed_now.insert(current_coords);
+                inc_neighbours(next_grid, current_coords.first, current_coords.second);
+            }
+        }
+        if(flashed_now.empty()){
+            break;
+        }
+        grid = next_grid;
+        already_flashed.insert(flashed_now.begin(), flashed_now.end());
+
+        pair< set<COORDINATES>, GRID > result(already_flashed, next_grid);
+        return result;
+    }
+}
+
+pair<int, GRID> step(GRID grid){
+    set<COORDINATES> already_flashed;
+    for(auto ind : grid){
+        ind.second++;
+    }
+    pair< set<COORDINATES>, GRID > temp = flash(grid, already_flashed);
+    for(auto coord : temp.first){
+        temp.second[coord] = 0;
+    }
+
+    // pair<int, GRID> result(already_flashed.size(), grid);
+    return make_pair(temp.first.size(), temp.second);
+}
+
 int main() {
     map<pair<int, int>, int> grid = readFile("input.txt");
-    printGrid(grid);
+    int part1; 
+    int part2=1; // optional, we can just std::cout function result
 
-    // Part 1//1739
-    // Part 2//324
+    int total = 0;
+    for(int i=0; i<100; i++){
+        pair<int, GRID> temp_res = step(grid);
+        int flashes = temp_res.first;
+        GRID grid = temp_res.second;
+        total+=flashes;
+        printGrid(temp_res.second);
+        if(i==99){
+            part1 = total;
+        }
+        if(flashes == grid.size()){
+            part2 = i+1;
+            break;
+        }
+    }
+
+    // Part 1
+    cout<<part1<<endl;//1739
+    // Part 2
+    cout<<part2<<endl;//324
+
+    // TEST
+    // printGrid(grid);
+    // COORDINATES c(0,1);
+    // COORDINATES d(0,0);
+    // set<COORDINATES> s;
+    // s.insert(c);
+    // s.insert(d);
+    // cout<<grid[c]<<endl;
+    // bool v1 = s.find(c)!=s.end();
+    // cout<<v1<<endl;
+    // COORDINATES e(1,0);
+    // bool v2 = s.find(e)!=s.end();
+    // cout<<v2<<endl;
+    // printSet(s);
+    // cout<<"===="<<endl;
+    // for(auto i : s){
+    //     cout<<grid[i]<<endl;
+    // }
 
     return 0;
 }
