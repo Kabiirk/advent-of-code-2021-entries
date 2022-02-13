@@ -157,6 +157,13 @@ T printVector( std::vector<T> vec){
     std::cout<<std::endl;
 }
 
+template <typename A>
+void print2DVec(std::vector<std::vector<A>> vec){
+    for(auto row : vec){
+        printVector(row);
+    }
+}
+
 template <typename S, typename T>
 void printVecPair(std::vector<std::pair<S, T>> vec){
     std::cout<<"< ";

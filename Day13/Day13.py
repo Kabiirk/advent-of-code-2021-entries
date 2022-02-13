@@ -43,7 +43,7 @@ def fold(coord_set, fold):
 
     return new_dot_set
 
-# # Part 1
+# Part 1
 first_fold = fold(dots, instructions[0])
 print(len(first_fold)) # 763
 
