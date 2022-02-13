@@ -1,6 +1,6 @@
 dots  = set()
 instructions = []
-with open('input13.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         if(line.split(' ')[0] == 'fold'):
             axis = line.split('=')[0][-1]
