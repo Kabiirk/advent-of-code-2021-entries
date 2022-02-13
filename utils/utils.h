@@ -249,3 +249,12 @@ bool isSubset(std::set<A> s1, std::set<A> s2){
     }
     return false;
 }
+
+template <typename I, typename J>
+void printSetPair(std::set<std::pair<I, J>> s){
+    std::cout<<"{ ";
+    for(auto itr : s){
+        std::cout<<"("<<itr.first<<","<<itr.second<<") ";
+    }
+    std::cout<<"}"<<std::endl;
+}
