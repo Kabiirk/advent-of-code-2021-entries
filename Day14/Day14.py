@@ -14,14 +14,17 @@ def getData(fileName):
 def applySteps(polymers, steps):
     for step in range(steps):
         stepPolymers = polymers.copy()
-        for pol in [p for p in stepPolymers.items() if p[1] > 0]:
-            template = [t for t in templates if t["pair"] == pol[0]][0]
+        a = [p for p in stepPolymers.items() if p[1] > 0]
+        for pol in a:
+            a2 = [t for t in templates if t["pair"] == pol[0]]
+            template = a2[0]
             polymers[template["insertion"][0]] += pol[1]
             polymers[template["insertion"][1]] += pol[1]
             polymers[pol[0]] -= pol[1]
     singles = defaultdict(list)
 
     for pol in polymers.items():
+        # print(pol);
         key, value = pol
         if not key[0] in singles:
             singles[key[0]] = 0
@@ -33,8 +36,8 @@ def applySteps(polymers, steps):
             singles[key[0]] += 1
     singles[polymer[0]] += 1
     singles[polymer[-1]] += 1
-    print(singles);
 
+    print(singles)
     mostCommon = max(singles.values())
     leastCommon = min(singles.values())
     print((mostCommon - leastCommon)//2)
@@ -57,7 +60,12 @@ for template in templates:
 for index in range(len(polymer)-1):
     polymers[polymer[index:index+2]] += 1
 
+# print("polymers")
+# print(polymers)
+# print("template")
+# print(template)
 # Part 1
 polymers = applySteps(polymers, 10)
+# print(polymers)
 # Part 2
 applySteps(polymers, 30)
