@@ -4,11 +4,14 @@
 #include <string>
 #include <vector>
 #include <queue> // for priority queue
-
-typedef int ULL;
+#include <deque>
+#include "../utils/utils.h"
 
 using namespace std;
 
+using CAVE = vector<vector<int>>;
+// using size_t = int;
+/*
 ULL getMinPath(vector<vector<ULL>>&arr,ULL n){
     //decalre a array for storing minimum cost up to that cell and initialize with INT_MAX
     vector<vector<ULL>>dp(n,vector<ULL>(n,1000));
@@ -68,10 +71,11 @@ ULL getMinPath(vector<vector<ULL>>&arr,ULL n){
     }
     return dp[n-1][n-1];
 }
+*/
 
-int main() {
+CAVE readFile(string filename){
     string line;
-    vector< vector< ULL > > cave;
+    CAVE cave;
 
     // Read File
     ifstream myfile ("input.txt");
@@ -79,7 +83,7 @@ int main() {
     {
         while ( getline(myfile, line) )
         {
-            vector<ULL> current_line;
+            vector<int> current_line;
             for(int i = 0; i<line.length(); i++){
                 current_line.push_back( (int)(line[i] - '0') );
             }
@@ -89,17 +93,73 @@ int main() {
     }
     else cout << "Unable to open file";
 
-    // Print 2D Vector
-    // for(int j = 0; j<cave.size(); j++){
-    //     for(int k = 0; k<cave[j].size(); k++){
-    //         cout<<cave[j][k]<<"";
-    //     }
-    //     cout<<"\n";
-    // }
+    return cave;
+}
+
+struct Point {
+    int row;
+    int col;
+    int cost;
+};
+
+int leastPathCost(CAVE &cave){
+    int n = cave.size(); // for readability
+    // filled with max value for integer
+    CAVE cost(n, vector<int>(n, numeric_limits<int>::max()));
+    cost[0][0] = 0;
+
+    deque<pair<int, int>> pending;
+    pending.push_back({0, 0});
+
+    while(!pending.empty()){
+        auto p = pending.front();
+        int row = p.first;
+        int col = p.second;
+        pending.pop_front();
+
+        if(row>0 && cost[row][col]+cave[row-1][col]<cost[row-1][col]){
+            cost[row-1][col] = cost[row][col] + cave[row-1][col];
+            pending.push_back({row-1, col});
+        }
+        if(row+1<cost.size() && cost[row][col]+cave[row+1][col]<cost[row+1][col]){
+            cost[row+1][col] = cost[row][col] + cave[row+1][col];
+            pending.push_back({row+1, col});
+        }
+        if(col>0 && cost[row][col]+cave[row][col-1]<cost[row][col-1]){
+            cost[row][col-1] = cost[row][col] + cave[row][col-1];
+            pending.push_back({row, col-1});
+        }
+        if(col+1<cost[row].size() && cost[row][col]+cave[row][col+1]<cost[row][col+1]){
+            cost[row][col+1] = cost[row][col] + cave[row][col+1];
+            pending.push_back({row, col+1});
+        }
+    }
+
+    return cost[cost.size()-1][cost[cost.size()-1].size()-1];
+}
+
+CAVE expandCave(CAVE &cave){
+    int n = cave.size();
+    CAVE result(n*5, vector<int>(n*5, 0));
+    for(int i = 0; i<result.size(); i++){
+        for(int j = 0; j<result[i].size(); j++){
+            result[i][j] =( ( cave[i%n][j%n] + i/n + j/n - 1 ) %9 ) + 1;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    CAVE cave = readFile("input.txt");
+    //print2DVec(cave);
 
     // Part 1
-    cout<<getMinPath(cave, cave.size());
+    // cout<<getMinPath(cave, cave.size());
+    cout<<leastPathCost(cave)<<endl;// 619
 
-    // Part 2
+    CAVE expanded_cave = expandCave(cave);
+
+    // Part 2// 2922
     return 0;
 }
