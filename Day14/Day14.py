@@ -1,15 +1,5 @@
-import os
-import sys
 from collections import Counter, defaultdict
 
-data = ""
-
-def getData(fileName):
-    strPath = os.path.join(sys.path[0], fileName)
-    with open(strPath) as fileObject:
-        data = fileObject.read().split('\n')
-
-    return data
 
 def applySteps(polymers, steps):
     for step in range(steps):
@@ -24,7 +14,6 @@ def applySteps(polymers, steps):
     singles = defaultdict(list)
 
     for pol in polymers.items():
-        # print(pol);
         key, value = pol
         if not key[0] in singles:
             singles[key[0]] = 0
@@ -37,7 +26,6 @@ def applySteps(polymers, steps):
     singles[polymer[0]] += 1
     singles[polymer[-1]] += 1
 
-    print(singles)
     mostCommon = max(singles.values())
     leastCommon = min(singles.values())
     print((mostCommon - leastCommon)//2)
@@ -60,12 +48,8 @@ for template in templates:
 for index in range(len(polymer)-1):
     polymers[polymer[index:index+2]] += 1
 
-# print("polymers")
-# print(polymers)
-# print("template")
-# print(template)
 # Part 1
 polymers = applySteps(polymers, 10)
-# print(polymers)
+
 # Part 2
 applySteps(polymers, 30)
