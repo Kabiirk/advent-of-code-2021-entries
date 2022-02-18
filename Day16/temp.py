@@ -1,12 +1,14 @@
-import time
-start=time.time()
 with open('input.txt') as fi:
-    raw=fi.read()[:-1]
+    hex_stream=fi.read()[:-1]
+print("hex_stream", hex_stream, len(hex_stream))
+
 transmission = ''
-for h in raw:
+for h in hex_stream:
     x = bin(int(h,base=16))
     #print(h,len(x))
     transmission += '0'*(6-len(x)) +str(x)[2:]
+
+print("transmission", transmission, len(transmission))
 
 def literal(trans):
     number = ''
@@ -16,6 +18,7 @@ def literal(trans):
         trans = trans[5:]
         if x =='0':
             break
+    print("number", number)
     return int(number,2),trans
 
 a = []
@@ -70,10 +73,15 @@ def packet(trans):
             if subpackets[0][2]==subpackets[1][2]: 
                 result = 1 
     a.append((pversion+versions,ptype,result))
+    print("a", a)
     return a , rest
 
 packets, rest = packet(transmission)
-print('part1',packets[-1][0])
-print('part2',packets[-1][2])
-end=time.time()
-print(round(end-start,4))
+print("packets", packets)
+print("rest", rest)
+
+# Part 1
+print(packets[-1][0])# 971
+
+# Part 2
+print(packets[-1][2])# 831996589851
