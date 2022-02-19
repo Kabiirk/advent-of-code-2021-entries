@@ -39,6 +39,7 @@ def packet(trans):
             while len(rest)>estimatedrestlength:
                 subpacket, rest = packet(rest)
                 for sub in subpacket: subpackets.append(sub)
+                print("subpackets", subpackets)
         elif x == '1':       #next 11 bits are a number that represents the number of sub-packets immediately contained by this packet
             subpacked_count= int(rest[:11],2)
             rest = rest[11:]
@@ -63,6 +64,7 @@ def packet(trans):
             for x in subpackets:
                 subresults += [x[2]]
             result = max(subresults)
+            print("subresults", subresults)
         elif ptype ==5:
             if subpackets[0][2]>subpackets[1][2]: 
                 result = 1 
@@ -73,7 +75,7 @@ def packet(trans):
             if subpackets[0][2]==subpackets[1][2]: 
                 result = 1 
     a.append((pversion+versions,ptype,result))
-    print("a", a)
+    print("a", type(a[0][2]))
     return a , rest
 
 packets, rest = packet(transmission)
