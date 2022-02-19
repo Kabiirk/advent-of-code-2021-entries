@@ -1,14 +1,11 @@
 with open('input.txt') as fi:
     hex_stream=fi.read()[:-1]
-print("hex_stream", hex_stream, len(hex_stream))
 
 transmission = ''
 for h in hex_stream:
     x = bin(int(h,base=16))
-    #print(h,len(x))
     transmission += '0'*(6-len(x)) +str(x)[2:]
 
-print("transmission", transmission, len(transmission))
 
 def literal(trans):
     number = ''
@@ -18,7 +15,7 @@ def literal(trans):
         trans = trans[5:]
         if x =='0':
             break
-    print("number", number)
+
     return int(number,2),trans
 
 a = []
@@ -39,7 +36,7 @@ def packet(trans):
             while len(rest)>estimatedrestlength:
                 subpacket, rest = packet(rest)
                 for sub in subpacket: subpackets.append(sub)
-                print("subpackets", subpackets)
+
         elif x == '1':       #next 11 bits are a number that represents the number of sub-packets immediately contained by this packet
             subpacked_count= int(rest[:11],2)
             rest = rest[11:]
@@ -64,7 +61,7 @@ def packet(trans):
             for x in subpackets:
                 subresults += [x[2]]
             result = max(subresults)
-            print("subresults", subresults)
+
         elif ptype ==5:
             if subpackets[0][2]>subpackets[1][2]: 
                 result = 1 
@@ -75,12 +72,10 @@ def packet(trans):
             if subpackets[0][2]==subpackets[1][2]: 
                 result = 1 
     a.append((pversion+versions,ptype,result))
-    print("a", type(a[0][2]))
+
     return a , rest
 
 packets, rest = packet(transmission)
-print("packets", packets)
-print("rest", rest)
 
 # Part 1
 print(packets[-1][0])# 971

@@ -88,7 +88,7 @@ bool isLowerString(std::string s) {
 template <typename A>
 bool ElementIn(const A s, std::vector<A> vec){
     /*
-    Determins whether a string or integer is present in vector<string>
+    Determines whether a string or integer is present in vector<string>
     or in a vector<int> respectively
         * Returns True if string is present in vector
         * Returns False Otherwise
@@ -136,6 +136,13 @@ S maxElement(std::vector<S> v){
     S max_elem = *max_element(v.begin(), v.end());
 
     return max_elem;
+}
+
+template <typename M>
+M minElement(std::vector<M> v){
+    M min_elem = *min_element(v.begin(), v.end());
+
+    return min_elem;
 }
 
 template <typename T>
