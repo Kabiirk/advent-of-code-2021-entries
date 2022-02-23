@@ -11,14 +11,12 @@ def distance(p1, p2):
 
     return int(sqrt(dx * dx + dy * dy + dz * dz))
 
-
 def distance_taxi(p1, p2):
     dx = p1[0] - p2[0]
     dy = p1[1] - p2[1]
     dz = p1[2] - p2[2]
 
     return abs(dx) + abs(dy) + abs(dz)
-
 
 def get_common_pt_num(config_1, config_2):
     return max(
@@ -29,7 +27,6 @@ def get_common_pt_num(config_1, config_2):
         ]
     )
 
-
 def get_config(sensor_data):
     config = defaultdict(set)
     for p1 in sensor_data:
@@ -38,7 +35,6 @@ def get_config(sensor_data):
         config[p1].remove(0)
 
     return config
-
 
 def allign(config1, config2):
     mapping = {}
@@ -76,7 +72,6 @@ def allign(config1, config2):
 
     return rot, translation
 
-
 def transform_points(rot, trans, points):
     new_points = set()
 
@@ -85,26 +80,9 @@ def transform_points(rot, trans, points):
 
     return new_points
 
-
-def part1():
-    input = open("input.txt").read().split("\n\n")
-    # temp1 = []
-    # for inp in input:
-    #     temp1.append(inp.split('\n')[1:])
-    # temp2 = []
-    # print(temp1)
-    # for temp in temp1:
-    #     for te in temp:
-    #         temp2.append(list(map(int, te.split(','))))
-    # print(temp2)
-
-    scanners = [
-        list(map(lambda x: tuple(map(int, x.split(","))), s.split("\n")[1:]))
-        for s in input
-    ]
-    print(scanners)
-
+def part1(scanners):
     grid = set(scanners.pop(0))
+    # print(grid)
 
     scanner_pos = []
     while len(scanners) > 0:
@@ -121,14 +99,23 @@ def part1():
         del scanners[s]
         scanner_pos.append(trams)
 
-    print(len(grid))
-    return scanner_pos
+    # print(len(grid))
+    return scanner_pos, len(grid)
 
 def part2(scanner_pos):
     print(max([distance_taxi(c[0],c[1]) for c in combinations(scanner_pos,2)]))
 
+input = open("input.txt").read().split("\n\n")
+scanners = [
+    list(map(lambda x: tuple(map(int, x.split(","))), s.split("\n")[1:]))
+    for s in input
+]
+# print("Scanners ",scanners)
 
-if __name__ == "__main__":
+scanner_pos, grid_len = part1(scanners)# 332
 
-    scanner_pos = part1()
-    part2(scanner_pos)
+# Part 1
+print(grid_len)# 332
+
+# Part 2
+part2(scanner_pos)# 8507
