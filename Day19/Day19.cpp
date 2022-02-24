@@ -4,13 +4,16 @@
 #include <string>
 #include <tuple>
 #include <set>
+#include <map>
 #include <regex>
+#include <cmath>
 
 using namespace std;
 
 using COORDS = tuple<int, int, int>;
 using SCANNER = vector< COORDS >;
 using SCANNER_REPORT = vector< SCANNER >;
+using CONFIG = map< COORDS, set<int> >;
 
 SCANNER_REPORT readFile(string filename){
     /*
@@ -97,6 +100,34 @@ void printTupleSet(set<COORDS> s){
         printTuple(tup);
     }
     cout<<" )"<<endl;
+}
+
+
+int distance(COORDS p1, COORDS p2){
+    int dx = get<0>(p1) - get<0>(p2);
+    int dy = get<1>(p1) - get<1>(p2);
+    int dz = get<2>(p1) - get<2>(p2);
+
+    return int(sqrt( (dx*dx) + (dy*dy) + (dz*dz) ) );
+}
+
+int TaxiDistance(COORDS p1, COORDS p2){
+    int dx = get<0>(p1) - get<0>(p2);
+    int dy = get<1>(p1) - get<1>(p2);
+    int dz = get<2>(p1) - get<2>(p2);
+
+    return abs(dx) + abs(dy) + abs(dz);
+}
+
+CONFIG getConfig(set<COORDS> sensor_data){
+    CONFIG config;
+    for(auto p1 : sensor_data){
+        for(auto p2 : sensor_data){
+            config[p1].insert(distance(p1, p2));
+        }
+    }
+
+    return config;
 }
 
 int main() {
