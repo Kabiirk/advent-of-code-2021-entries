@@ -19,13 +19,15 @@ def distance_taxi(p1, p2):
     return abs(dx) + abs(dy) + abs(dz)
 
 def get_common_pt_num(config_1, config_2):
-    return max(
+    max_len = max(
         [
             len(config_1[p0].intersection(config_2[p1]))
             for p0 in config_1
             for p1 in config_2
         ]
     )
+
+    return max_len
 
 def get_config(sensor_data):
     config = defaultdict(set)
@@ -56,6 +58,7 @@ def allign(config1, config2):
 
     p1_mod = (round(p1[0] - cog_1_x), round(p1[1] - cog_1_y), round(p1[2] - cog_1_z))
     p2_mod = (round(p2[0] - cog_2_x), round(p2[1] - cog_2_y), round(p2[2] - cog_2_z))
+    # print("mods p1, p2", p1_mod, p2_mod)
 
     rot = {}
     for i in range(3):
@@ -70,6 +73,9 @@ def allign(config1, config2):
     for i in range(3):
         translation.append(p2_rot[i] - p1[i])
 
+    # print("mapping ", mapping)
+    # print("rot ", rot)
+    # print("translation ", translation)
     return rot, translation
 
 def transform_points(rot, trans, points):
@@ -97,6 +103,8 @@ def part1(scanners):
         grid.update(transform_points(rot, trams, scanners[s]))
 
         del scanners[s]
+        # print("Scanner_pos", scanner_pos)
+        # print("trams", trams)
         scanner_pos.append(trams)
 
     # print(len(grid))
@@ -113,6 +121,7 @@ scanners = [
 # print("Scanners ",scanners)
 
 scanner_pos, grid_len = part1(scanners)# 332
+# print("scan_pos", scanner_pos)
 
 # Part 1
 print(grid_len)# 332
