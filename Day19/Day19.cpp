@@ -123,11 +123,27 @@ int getIndex(vector<int> v, int K)
 }
 
 int getTupleValue(COORDS tup, const int i){
-    switch (i)
-    {
-    case 0 : return get<0>(tup);
-    case 1 : return get<1>(tup);
-    case 2 : return get<2>(tup);
+    // Switch-case not working for some reason
+    // switch (i)
+    // {
+    // case 0 : return get<0>(tup);
+    // case 1 : return get<1>(tup);
+    // case 2 : return get<2>(tup);
+    // }
+    if(i == 0){
+        return get<0>(tup);
+    }
+    else if(i==1){
+        return get<1>(tup);
+    }
+    else if(i==2){
+        return get<2>(tup);
+    }
+    else if(i==-1){
+        return get<2>(tup);
+    }
+    else if(i==-2){
+        return get<1>(tup);
     }
 }
 
@@ -230,6 +246,7 @@ pair<map<int, pair<int, int>>, vector<int>> allign(CONFIG config1, CONFIG config
     for(int i = 0; i<3; i++){
         int idx =  getIndex( temp, (int)abs( getTupleValue(p1_mod, i) ) );
         rot[i] = make_pair(idx, getTupleValue(p1_mod, i)/getTupleValue(p2_mod, idx));
+        cout<<"Y1"<<endl;
     }
 
     vector<int> p2_rot = {0, 0, 0};
@@ -277,25 +294,33 @@ pair<SCANNER, int> part1(SCANNER_REPORT scanners){
             scanners_common.push_back( getCommonPtNum( grid_config, getConfig(s_set) ) );
         }
 
-        int s = getIndex( scanners_common, *max_element(scanners_common.begin(), scanners_common.end()) );
+        int t = *max_element(scanners_common.begin(), scanners_common.end());
+        int s = getIndex( scanners_common, t );
+
         set<COORDS> max_scan(scanners[s].begin(), scanners[s].end());
 
         pair<map<int, pair<int, int>>, vector<int>> temp_pair = allign(grid_config, getConfig(max_scan));
-        
         set<COORDS> s1 = transformPoints(temp_pair.first, temp_pair.second, scanners[s]);
         // ~ grid.update()
         for(auto a : s1){
             grid.insert(a);
         }
 
-        scanners.erase(scanners.begin() + s);
-        // vector<int>AB;
-        // AB.reserve( scanner_pos.size() + temp_pair.second.size() ); // preallocate memory
-        // AB.insert( AB.end(), scanner_pos.begin(), scanner_pos.end() );
-        // AB.insert( AB.end(), temp_pair.second.begin(), temp_pair.second.end() );
+        auto i = find(scanners.begin(), scanners.end(), scanners[s]);
+        scanners.erase(i);
+        cout<<"Y2"<<endl;
+
+        for(auto z : temp_pair.second){
+            cout<<z<<"; ";
+        }
+        cout<<endl;
         scanner_pos.push_back( make_tuple( temp_pair.second[0], temp_pair.second[1], temp_pair.second[2] ) );
     }
+    cout<<"Y3"<<endl;
 
+    for(auto x : scanner_pos){
+        printTuple(x);
+    }
     return make_pair(scanner_pos, grid.size());
 }
 
@@ -313,12 +338,14 @@ void part_2(SCANNER scanner_pos){
 int main(){
     SCANNER_REPORT scanners = readFile("input.txt");
 
+    cout<<"X"<<endl;
     pair<SCANNER, int> part_1 = part1(scanners);
 
     // Part 1
     cout<<part_1.second<<endl;// 332
 
     // Part 2
+    cout<<"Z"<<endl;
     part_2(part_1.first);// 8507
 
     return 0;
