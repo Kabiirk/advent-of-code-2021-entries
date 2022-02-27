@@ -58,7 +58,6 @@ def allign(config1, config2):
 
     p1_mod = (round(p1[0] - cog_1_x), round(p1[1] - cog_1_y), round(p1[2] - cog_1_z))
     p2_mod = (round(p2[0] - cog_2_x), round(p2[1] - cog_2_y), round(p2[2] - cog_2_z))
-    # print("mods p1, p2", p1_mod, p2_mod)
 
     rot = {}
     for i in range(3):
@@ -73,9 +72,6 @@ def allign(config1, config2):
     for i in range(3):
         translation.append(p2_rot[i] - p1[i])
 
-    # print("mapping ", mapping)
-    # print("rot ", rot)
-    # print("translation ", translation)
     return rot, translation
 
 def transform_points(rot, trans, points):
@@ -88,7 +84,6 @@ def transform_points(rot, trans, points):
 
 def part1(scanners):
     grid = set(scanners.pop(0))
-    # print(grid)
 
     scanner_pos = []
     while len(scanners) > 0:
@@ -100,31 +95,27 @@ def part1(scanners):
         s = scaners_common.index(max(scaners_common))
 
         rot, trams = allign(grid_config, get_config(scanners[s]))
-        grid.update(transform_points(rot, trams, scanners[s]))
+        x = transform_points(rot, trams, scanners[s])
+        grid.update(x)
 
         del scanners[s]
-        # print("Scanner_pos", scanner_pos)
-        # print("trams", trams)
         scanner_pos.append(trams)
 
-    # print(len(grid))
     return scanner_pos, len(grid)
 
 def part2(scanner_pos):
-    print(max([distance_taxi(c[0],c[1]) for c in combinations(scanner_pos,2)]))
+    return (max([distance_taxi(c[0],c[1]) for c in combinations(scanner_pos,2)]))
 
 input = open("input.txt").read().split("\n\n")
 scanners = [
     list(map(lambda x: tuple(map(int, x.split(","))), s.split("\n")[1:]))
     for s in input
 ]
-# print("Scanners ",scanners)
 
-scanner_pos, grid_len = part1(scanners)# 332
-# print("scan_pos", scanner_pos)
+scanner_pos, grid_len = part1(scanners)
 
 # Part 1
 print(grid_len)# 332
 
 # Part 2
-part2(scanner_pos)# 8507
+print(part2(scanner_pos))# 8507

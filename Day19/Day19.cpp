@@ -7,6 +7,7 @@
 #include <map>
 #include <regex>
 #include <cmath>
+#include "../utils/utils.h"
 
 using namespace std;
 
@@ -102,6 +103,18 @@ void printTupleSet(set<COORDS> s){
     cout<<" )"<<endl;
 }
 
+void printMapOfPairs(map<int, pair<int, int>> rot){
+    for(auto r : rot){
+        cout<<r.first<<": "<<"("<<r.second.first<<","<<r.second.second<<") ";
+    }
+    cout<<endl;
+}
+
+template <typename T>
+void Print(T s){
+    cout<<s<<endl;
+}
+
 int getIndex(vector<int> v, int K)
 {
     auto it = find(v.begin(), v.end(), K);
@@ -195,46 +208,56 @@ CONFIG getConfig(set<COORDS> sensor_data){
 
 // rot  {0: (2, 1), 1: (0, 1), 2: (1, 1)}
 // translation  [-1103, -2383, -1149]
-pair<map<int, pair<int, int>>, vector<int>> allign(CONFIG config1, CONFIG config2){
+pair<map<int, pair<int, int>>, vector<int>> allign(CONFIG &config1, CONFIG &config2){
     map<COORDS, COORDS> mapping;
     for(auto p1 : config1){
         for(auto p2 : config2){
-            set<int> intersection;
+            // Takes VEEEEERY Long 
+            vector<int> intersection;
             set_intersection(p1.second.begin(), p1.second.end(), p2.second.begin(), p2.second.end(),
-                     inserter(intersection, intersection.begin()));
+                     back_inserter(intersection));
             if(intersection.size() > 10){
                 mapping[p1.first] = p2.first;
             }
         }
     }
 
-    double cog_1_x, cog_1_y, cog_1_z;
-    double cog_2_x, cog_2_y, cog_2_z;
-    int len_mapping = mapping.size();
+
+    double sum_1_x=0.0, sum_1_y=0.0, sum_1_z=0.0;
+    double sum_2_x=0.0, sum_2_y=0.0, sum_2_z=0.0;
+    double len_mapping = mapping.size();
 
     for(auto k : mapping){
-            cog_1_x += get<0>(k.first) / len_mapping;
-            cog_1_y += get<1>(k.first) / len_mapping;
-            cog_1_z += get<2>(k.first) / len_mapping;
+            sum_1_x += get<0>(k.first);
+            sum_1_y += get<1>(k.first);
+            sum_1_z += get<2>(k.first);
 
-            cog_2_x += get<0>(k.second) / len_mapping;
-            cog_2_y += get<1>(k.second) / len_mapping;
-            cog_2_z += get<2>(k.second) / len_mapping;
+            sum_2_x += get<0>(k.second);
+            sum_2_y += get<1>(k.second);
+            sum_2_z += get<2>(k.second);
     }
+
+    // This WORKS but all values are close to (not same as) the python solution
+    double cog_1_x=sum_1_x/len_mapping;
+    double cog_1_y=sum_1_y/len_mapping;
+    double cog_1_z=sum_1_z/len_mapping;
+    double cog_2_x=sum_2_x/len_mapping;
+    double cog_2_y=sum_2_y/len_mapping;
+    double cog_2_z=sum_2_z/len_mapping;
 
     COORDS p1 = mapping.begin()->first;
     COORDS p2 = mapping.at(p1);
 
     // p1_mod, p2_mod = (-857, 131, 516), (131, 516, -857)
     COORDS p1_mod = make_tuple(
-        (int)round( get<0>(p1)-cog_1_x ),
-        (int)round( get<1>(p1)-cog_1_y ),
-        (int)round( get<2>(p1)-cog_1_z )
+        round( get<0>(p1)-cog_1_x ),
+        round( get<1>(p1)-cog_1_y ),
+        round( get<2>(p1)-cog_1_z )
     );
     COORDS p2_mod = make_tuple(
-        (int)round(get<0>(p2)-cog_2_x),
-        (int)round(get<1>(p2)-cog_2_y),
-        (int)round(get<2>(p2)-cog_2_z)
+        round(get<0>(p2)-cog_2_x),
+        round(get<1>(p2)-cog_2_y),
+        round(get<2>(p2)-cog_2_z)
     );
 
     map<int, pair<int, int>> rot;
@@ -245,8 +268,13 @@ pair<map<int, pair<int, int>>, vector<int>> allign(CONFIG config1, CONFIG config
     vector<int> temp = { abs(get<0>(p2_mod)), abs(get<1>(p2_mod)), abs(get<2>(p2_mod)) };
     for(int i = 0; i<3; i++){
         int idx =  getIndex( temp, (int)abs( getTupleValue(p1_mod, i) ) );
+        // ALL VALS WRONG !! but this somehow works
+        // if(i==1){
+        //     printVector(temp);
+        //     Print(idx);
+        //     Print( (int)abs( getTupleValue(p1_mod, i) ) );
+        // }
         rot[i] = make_pair(idx, getTupleValue(p1_mod, i)/getTupleValue(p2_mod, idx));
-        cout<<"Y1"<<endl;
     }
 
     vector<int> p2_rot = {0, 0, 0};
@@ -266,12 +294,12 @@ set<COORDS> transformPoints(map<int, pair<int, int>> rot, vector<int> trans, SCA
     set<COORDS> new_points;
     // p is a tuple<int, int, int> i.e. COORDS
     for(auto p : points){
-        COORDS temp_tuple  = make_tuple( 
+        COORDS t_t  = make_tuple( 
                 ( getTupleValue(p, rot[0].first) * rot[0].second) - trans[0],
                 ( getTupleValue(p, rot[1].first) * rot[1].second) - trans[1],
                 ( getTupleValue(p, rot[2].first) * rot[2].second) - trans[2]
             );
-        new_points.insert( temp_tuple );
+        new_points.insert( t_t );
     }
 
     return new_points;
@@ -285,10 +313,10 @@ pair<SCANNER, int> part1(SCANNER_REPORT scanners){
                    [-30, -58, -3463], [-21, -1221, -3496],...
                    .., [-1103, -1340, -1046], [-1103, -2383, -1149]]
     */
-    SCANNER scanner_pos;
-    vector<int> scanners_common;
+    vector<COORDS> scanner_pos;
     while(scanners.size() > 0){
         CONFIG grid_config = getConfig(grid);
+        vector<int> scanners_common;
         for(auto s: scanners){
             set<COORDS> s_set(s.begin(), s.end());
             scanners_common.push_back( getCommonPtNum( grid_config, getConfig(s_set) ) );
@@ -297,10 +325,23 @@ pair<SCANNER, int> part1(SCANNER_REPORT scanners){
         int t = *max_element(scanners_common.begin(), scanners_common.end());
         int s = getIndex( scanners_common, t );
 
+        // possible reason for difference, get_config() in python
+        // solution can take 2nd argument of both type set and list,
+        // but here getConfig() can only take type set as 2nd argument.
         set<COORDS> max_scan(scanners[s].begin(), scanners[s].end());
 
-        pair<map<int, pair<int, int>>, vector<int>> temp_pair = allign(grid_config, getConfig(max_scan));
-        set<COORDS> s1 = transformPoints(temp_pair.first, temp_pair.second, scanners[s]);
+        // Since we are passing it by reference in allign function,
+        // we need to do this to avoid the following error :
+        // invalid initialization of non-const reference of type 'CONFIG& {aka std::map<std::tuple<int, int, int>, std::set<int> >&}' from an rvalue of type 'CONFIG {aka std::map<std::tuple<int, int, int>, std::set<int> >}'
+        //  pair<map<int, pair<int, int>>, vector<int>> temp_pair = allign(grid_config, getConfig(max_scan));
+        // Ref. : https://stackoverflow.com/questions/8293426/error-invalid-initialization-of-non-const-reference-of-type-int-from-an-rval
+        CONFIG c = getConfig(max_scan);
+
+        pair<map<int, pair<int, int>>, vector<int>> temp_pair = allign(grid_config, c);
+        map<int, pair<int, int>> rot = temp_pair.first;
+        vector<int> trams = temp_pair.second;
+
+        set<COORDS> s1 = transformPoints(rot, trams, scanners[s]);
         // ~ grid.update()
         for(auto a : s1){
             grid.insert(a);
@@ -308,19 +349,10 @@ pair<SCANNER, int> part1(SCANNER_REPORT scanners){
 
         auto i = find(scanners.begin(), scanners.end(), scanners[s]);
         scanners.erase(i);
-        cout<<"Y2"<<endl;
 
-        for(auto z : temp_pair.second){
-            cout<<z<<"; ";
-        }
-        cout<<endl;
-        scanner_pos.push_back( make_tuple( temp_pair.second[0], temp_pair.second[1], temp_pair.second[2] ) );
+        scanner_pos.push_back( make_tuple( trams[0], trams[1], trams[2] ) );
     }
-    cout<<"Y3"<<endl;
 
-    for(auto x : scanner_pos){
-        printTuple(x);
-    }
     return make_pair(scanner_pos, grid.size());
 }
 
@@ -338,14 +370,12 @@ void part_2(SCANNER scanner_pos){
 int main(){
     SCANNER_REPORT scanners = readFile("input.txt");
 
-    cout<<"X"<<endl;
     pair<SCANNER, int> part_1 = part1(scanners);
 
     // Part 1
     cout<<part_1.second<<endl;// 332
 
     // Part 2
-    cout<<"Z"<<endl;
     part_2(part_1.first);// 8507
 
     return 0;
