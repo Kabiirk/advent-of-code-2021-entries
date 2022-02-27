@@ -356,7 +356,7 @@ pair<SCANNER, int> part1(SCANNER_REPORT scanners){
     return make_pair(scanner_pos, grid.size());
 }
 
-void part_2(SCANNER scanner_pos){
+int part_2(SCANNER scanner_pos){
     vector<int> taxi_distance;
     for(auto c1 : scanner_pos){
         for(auto c2 : scanner_pos){
@@ -364,7 +364,7 @@ void part_2(SCANNER scanner_pos){
         }
     }
 
-    cout<< *max_element(taxi_distance.begin(), taxi_distance.end())<<endl;
+    return *max_element(taxi_distance.begin(), taxi_distance.end());
 }
 
 int main(){
@@ -376,7 +376,7 @@ int main(){
     cout<<part_1.second<<endl;// 332
 
     // Part 2
-    part_2(part_1.first);// 8507
+    cout<<part_2(part_1.first)<<endl;// 8507
 
     return 0;
 }
