@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
-// #include "../utils/utils.h"
 
 using namespace std;
 
@@ -33,25 +32,25 @@ IMAGE readFile(string filename){
     return image;
 }
 
-void resizeImage(IMAGE &image){
+void resizeImage(IMAGE &image, char &background){
     int n = image[0].size();
-    image.insert(image.begin(), string(n, '0'));//top
-    image.push_back(string(n, '0'));// bottom
+    image.insert(image.begin(), string(n, background));//top
+    image.push_back(string(n, background));// bottom
 
     // left
     for(auto &row : image){
-        row.insert(row.begin(), '0');
+        row.insert(row.begin(), background);
     }
     // right
     for(auto &row : image){
-        row.push_back('0');
+        row.push_back(background);
     }
 }
 
-void enhanceImage(IMAGE &image, string &program){
+void enhanceImage(IMAGE &image, string &program, char &background){
     IMAGE output = image;
     for(int y = 0; y<image.size(); y++){
-        string row = image[y];
+        string &row = image[y];
 
         for(int x = 0; x<row.size(); x++){
             string neighbours;
@@ -60,10 +59,10 @@ void enhanceImage(IMAGE &image, string &program){
                 for(int i = x-1; i<=x+1; i++){
                     // handle boundaries
                     if(j<0 || j>=image.size()){
-                        neighbours.push_back('0');
+                        neighbours.push_back(background);
                     }
                     else if(i<0 || i>=image[j].size()){
-                        neighbours.push_back('0');
+                        neighbours.push_back(background);
                     }
                     else{
                         neighbours.push_back(image[j][i]);
@@ -75,6 +74,7 @@ void enhanceImage(IMAGE &image, string &program){
     }
 
     image = output;
+    background = (background - '0') ? '0' : '1';
 }
 
 int whitePixelCount(IMAGE &image){
@@ -94,19 +94,16 @@ int whitePixelCount(IMAGE &image){
 int main() {
     IMAGE image = readFile("input.txt");
     int part_1, part_2;
+    char background = '0';
     
     // Popping first element of vector since
     // it is the image enhancement algorithm
     string program = image[0];
     image.erase(image.begin());
 
-    // printVector(image, true);
-    // resizeImage(image);
-    // printVector(image, true);
-
     for(int i = 1; i<=50; i++){
-        resizeImage(image);
-        enhanceImage(image, program);
+        resizeImage(image, background);
+        enhanceImage(image, program, background);
         // after 2 enhancements
         if(i == 2){
             part_1 = whitePixelCount(image);
