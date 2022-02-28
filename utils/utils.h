@@ -82,6 +82,11 @@ bool isLowerString(std::string s) {
     }
 }
 
+template <typename X>
+void Print(X something){
+    std::cout<<something<<std::endl;
+}
+
 // #######################################################################
 // Vector Related Methods
 // #######################################################################
@@ -146,7 +151,7 @@ M minElement(std::vector<M> v){
 }
 
 template <typename T>
-T printVector( std::vector<T> vec){
+T printVector( std::vector<T> vec, bool newline=false){
     /*
     Prints vector of any type
 
@@ -156,9 +161,14 @@ T printVector( std::vector<T> vec){
         2. Print Multi-dimensional vectors
     */
 
-    std::cout<<"< ";
+    std::cout<<"< "<<std::endl;
     for(auto it : vec){
-        std::cout<<it<<" ";
+        if(newline){
+            std::cout<<it<<std::endl;
+        }
+        else{
+            std::cout<<it<<" ";
+        }
     }
     std::cout<<">";
     std::cout<<std::endl;
