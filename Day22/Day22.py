@@ -1,85 +1,83 @@
-import re
-
-from typing import Optional, Tuple
-
-class Cube:
-  def __init__(self, x: Tuple[int, int], y: Tuple[int, int], z: Tuple[int, int], on: bool) -> None:
-    self.min_x, self.max_x = min(x), max(x)
-    self.min_y, self.max_y = min(y), max(y)
-    self.min_z, self.max_z = min(z), max(z)
-    self.on = on
-
-    self.volume = (self.max_x - self.min_x + 1) * (self.max_y - self.min_y + 1) * (self.max_z - self.min_z + 1)
-
-  def __str__(self) -> str:
-    return f'{"on" if self.on else "off"} x={self.min_x}..{self.max_x} y={self.min_y}..{self.max_y} z={self.min_z}..{self.max_z}'
-
-  def is_small(self) -> bool:
-    return -50 <= min(self.min_x, self.min_y, self.min_z) and 50 >= max(self.max_x, self.max_y, self.max_z)
-
-  def intersect(self, other: 'Cube') -> Optional['Cube']:
-    if self.max_x < other.min_x or self.min_x > other.max_x:
-      return None
-    if self.max_y < other.min_y or self.min_y > other.max_y:
-      return None
-    if self.max_z < other.min_z or self.min_z > other.max_z:
-      return None
-
-    return Cube(
-        (min(self.max_x, other.max_x), max(self.min_x, other.min_x)),
-        (min(self.max_y, other.max_y), max(self.min_y, other.min_y)),
-        (min(self.max_z, other.max_z), max(self.min_z, other.min_z)),
-        other.on if self.on != other.on else not other.on)
+from collections import defaultdict
 
 
-class Reactor:
-  def __init__(self) -> None:
-    self.regions = []
-
-  def __str__(self) -> str:
-    return "\n".join(str(x) for x in self.regions)
-
-  def add_region(self, region: Cube) -> None:
-    self.regions.append(region)
-
-  def reboot(self, small: bool = False) -> int:
-    processed = []
-
-    for i, region in enumerate(self.regions):
-      if small and not region.is_small():
-        continue
-
-      next_processed = []
-
-      for previous in processed:
-        next_processed.append(previous)
-        if overlap := previous.intersect(region):
-          next_processed.append(overlap)
-
-      if region.on:
-        next_processed.append(region)
-
-      processed = next_processed
-
-    return sum(region.volume if region.on else -region.volume for region in processed)
+def cube_vol(b):
+    x1, x2 = b[0]
+    y1, y2 = b[1]
+    z1, z2 = b[2]
+    return (abs(x2 - x1) + 1) * (abs(y2 - y1) + 1) * (abs(z2 - z1) + 1)
 
 
-def read_input() -> Reactor:
-  reactor = Reactor()
-
-  with open('input.txt') as file:
-    for line in file.readlines():
-      m = re.match(r'^(on|off) x=(-?\d+)\.\.(-?\d+),y=(-?\d+)\.\.(-?\d+),z=(-?\d+)\.\.(-?\d+)', line.strip())
-      status, min_x, max_x, min_y, max_y, min_z, max_z = m.groups()
-      reactor.add_region(Cube((int(min_x), int(max_x)), (int(min_y), int(max_y)), (int(min_z), int(max_z)), status == "on"))
-
-  return reactor
+def overlaps(b1, b2):
+    ans = []
+    for n1, n2 in zip(b1, b2):
+        if n1[1] < n2[0] or n2[1] < n1[0]:
+            return None
+        bounds = (max(n1[0], n2[0]), min(n1[1], n2[1]))
+        ans.append(bounds)
+    return tuple(ans)
 
 
-def run() -> None:
-  reactor = read_input()
-  print(f'Initial reboot, active cubes: {reactor.reboot(True)}')
-  print(f'Full reboot, active cubes: {reactor.reboot()}')
+def wrangle(data, ignore=False):
+    steps = []
+    for line in data:
+        switch, coords = line.split(" ")
+        bounds = tuple(
+            tuple(int(p) for p in l[2:].split("..")) for l in coords.split(",")
+        )
+        x, y, z = bounds
+        if ignore:
+            if (
+                -ignore <= int(x[0]) <= ignore
+                and -ignore <= int(x[1]) <= ignore
+                and -ignore <= int(y[0]) <= ignore
+                and -ignore <= int(y[1]) <= ignore
+                and -ignore <= int(z[0]) <= ignore
+                and -ignore <= int(z[1]) <= ignore
+            ):
+                steps.append((switch == "on", bounds))
+        else:
+            steps.append((switch == "on", bounds))
+
+    return steps
 
 
-run()
+def count(steps):
+    counts = defaultdict(int)
+    for i in range(len(steps)):
+        switch, bounds = steps[i]
+        updates = defaultdict(int)
+        keys = set(counts.keys())
+        # print("keys", type(keys))
+        for cube in keys:
+            overlapping = overlaps(bounds, cube)
+            if not overlapping:
+                continue
+            print("Overlap", overlapping)
+            updates[overlapping] -= counts[cube]
+        if switch:
+            updates[bounds] += 1
+        for c in updates:
+            counts[c] += updates[c]
+    return counts
+
+
+data = open("input.txt").read().strip().split("\n")
+
+# Part 1
+steps = wrangle(data, 50)
+counts = count(steps)
+
+p1 = 0
+for cube in counts:
+    p1 += cube_vol(cube) * counts[cube]
+print(p1)
+
+# Part 2
+steps = wrangle(data)
+counts = count(steps)
+
+p2 = 0
+for cube in counts:
+    p2 += cube_vol(cube) * counts[cube]
+print(p2)
