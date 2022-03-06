@@ -48,7 +48,6 @@ def count(steps):
         switch, bounds = steps[i]
         updates = defaultdict(int)
         keys = set(counts.keys())
-        # print("keys", keys, "\n")
         for cube in keys:
             overlapping = overlaps(bounds, cube)
             if not overlapping:

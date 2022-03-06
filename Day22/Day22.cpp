@@ -33,9 +33,9 @@ struct Cube{
     }
 
     CUBE_TUP return3DTuple(){
-        return make_tuple( make_pair(this->x_min, this->x_max),
-                           make_pair(this->y_min, this->y_max),
-                           make_pair(this->z_min, this->z_max)
+        return make_tuple( make_pair(x_min,x_max),
+                           make_pair(y_min,y_max),
+                           make_pair(z_min,z_max)
                         );
     }
 };
@@ -62,7 +62,7 @@ vector<Cube> readFile(string filename, bool only_reboot=false, int reboot_limit=
                 int y_max = stoi(result[5]);
                 int z_min = stoi(result[6]);
                 int z_max = stoi(result[7]);
-                bool is_on = result[1]=="on" ? true : false;
+                bool is_on = result[1]=="on";
                 if(only_reboot){
                     if( -reboot_limit <= x_min && x_min <= reboot_limit &&
                         -reboot_limit <= x_max && x_max <= reboot_limit &&
@@ -141,10 +141,11 @@ updates (map) :
             ...
         }
 */
+
 // utility function specifically for this problem
 set<CUBE_TUP> mapKeyToSet(map<CUBE_TUP, int> dict){
     set<CUBE_TUP> s;
-    // m = pair<Cube, int>
+    // m = pair<CUBE_TUP, int>
     for(auto m : dict){
         s.insert(m.first);
     }
@@ -163,18 +164,6 @@ pair<int, int> indexTuple(CUBE_TUP tup, int index){
     }
 }
 
-// hard-coded since none of the tuples have
-// entries in that specific order
-// can increase execution time
-// TODO : FIND A BETTER METHOD FOR THIS
-bool TupleHasValue(CUBE_TUP b1){
-    bool a = get<0>(b1).first == 0 && get<0>(b1).second == 1;
-    bool b = get<1>(b1).first == 2 && get<1>(b1).second == 3;
-    bool c = get<2>(b1).first == 4 && get<2>(b1).second == 5;
-
-    return a && b && c;
-}
-
 int cubeVol(CUBE_TUP b1){
     pair<int, int> x = indexTuple(b1, 0);
     pair<int, int> y = indexTuple(b1, 1);
@@ -183,7 +172,7 @@ int cubeVol(CUBE_TUP b1){
     return (abs(x.second - x.first)+1) * (abs(y.second - y.first)+1) * (abs(z.second - z.first)+1);
 }
 
-CUBE_TUP overlaps(CUBE_TUP b1, CUBE_TUP b2){
+pair<CUBE_TUP, int> overlaps(CUBE_TUP b1, CUBE_TUP b2){
     // ans = ((-12, 5), (-4, 6), (-4, -3))
     // n1, n2 => pair<int, int>
     pair<int, int> ans[3];
@@ -192,18 +181,19 @@ CUBE_TUP overlaps(CUBE_TUP b1, CUBE_TUP b2){
         pair<int, int> n2 = indexTuple(b2, i);
         if( (n1.second < n2.first) || (n2.second < n1.first) ){
             CUBE_TUP temp = { {0,1}, {2,3}, {4,5} };
-            return temp;
+            return make_pair(temp, 0);
         }
         ans[i] = make_pair( max(n1.first, n2.first), min(n1.second, n2.second) );
         // pair<int, int> bounds = make_pair( max(n1.first, n2.first), min(n1.second, n2.second) );
         // ans.push_back(bounds);
     }
 
-    return make_tuple( ans[0], ans[1], ans[2] );
+    return make_pair(make_tuple( ans[0], ans[1], ans[2] ), 3);
 }
 
 map<CUBE_TUP, int> count(vector<Cube> steps){
     map<CUBE_TUP, int> counts;
+    int n = steps.size();
 
     // i => object instance of Cube struct 
     for(auto i : steps){
@@ -213,12 +203,13 @@ map<CUBE_TUP, int> count(vector<Cube> steps){
         set<CUBE_TUP> keys = mapKeyToSet(counts);
         // cube => ((-18, 12), (-24, 6), (-4, 6))
         // cube = <CUBE_TUP>
+        // Print(keys.size());
         for(auto cube : keys){
-            CUBE_TUP overlapping = overlaps(bounds, cube);
-            if( !( TupleHasValue(overlapping) ) ){
+            pair<CUBE_TUP, int> overlapping = overlaps(bounds, cube);
+            if( overlapping.second==0 ){
                 continue;
             }
-            updates[overlapping] -= counts[cube];
+            updates[overlapping.first] -= counts[cube];
         }
 
         if(sw){
@@ -226,7 +217,7 @@ map<CUBE_TUP, int> count(vector<Cube> steps){
         }
 
         for(auto c : updates){
-            counts[c.first] += c.second;
+            counts[c.first] += updates[c.first];
         }
     }
 
@@ -245,7 +236,6 @@ int main() {
         p1 += cubeVol(cube.first)*cube.second;
     }
     cout<<p1<<endl;// 611378
-                   // 1802426
 
     // Part 2
     map<CUBE_TUP, int> counts2 = count(steps);
@@ -254,6 +244,6 @@ int main() {
         p2 += cubeVol(cube.first)*cube.second;
     }
     cout<<p2<<endl;// 1214313344725528
-                   // 17216230090
+                   // 96025375256
     return 0;
 }
