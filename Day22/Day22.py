@@ -48,17 +48,17 @@ def count(steps):
         switch, bounds = steps[i]
         updates = defaultdict(int)
         keys = set(counts.keys())
-        # print("keys", type(keys))
+        # print("keys", keys, "\n")
         for cube in keys:
             overlapping = overlaps(bounds, cube)
             if not overlapping:
                 continue
-            print("Overlap", overlapping)
             updates[overlapping] -= counts[cube]
         if switch:
             updates[bounds] += 1
         for c in updates:
             counts[c] += updates[c]
+
     return counts
 
 
