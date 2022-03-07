@@ -1,12 +1,10 @@
 from collections import defaultdict
 
-
 def cube_vol(b):
     x1, x2 = b[0]
     y1, y2 = b[1]
     z1, z2 = b[2]
     return (abs(x2 - x1) + 1) * (abs(y2 - y1) + 1) * (abs(z2 - z1) + 1)
-
 
 def overlaps(b1, b2):
     ans = []
@@ -16,7 +14,6 @@ def overlaps(b1, b2):
         bounds = (max(n1[0], n2[0]), min(n1[1], n2[1]))
         ans.append(bounds)
     return tuple(ans)
-
 
 def wrangle(data, ignore=False):
     steps = []
@@ -41,7 +38,6 @@ def wrangle(data, ignore=False):
 
     return steps
 
-
 def count(steps):
     counts = defaultdict(int)
     for i in range(len(steps)):
@@ -57,7 +53,6 @@ def count(steps):
             updates[bounds] += 1
         for c in updates:
             counts[c] += updates[c]
-
     return counts
 
 
@@ -70,7 +65,7 @@ counts = count(steps)
 p1 = 0
 for cube in counts:
     p1 += cube_vol(cube) * counts[cube]
-print(p1)
+print(p1)# 611378
 
 # Part 2
 steps = wrangle(data)
@@ -79,4 +74,4 @@ counts = count(steps)
 p2 = 0
 for cube in counts:
     p2 += cube_vol(cube) * counts[cube]
-print(p2)
+print(p2)# 1214313344725528

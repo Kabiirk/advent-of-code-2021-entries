@@ -83,8 +83,13 @@ bool isLowerString(std::string s) {
 }
 
 template <typename X>
-void Print(X something){
-    std::cout<<something<<std::endl;
+void Print(X something, bool new_line=true){
+    if(new_line){
+        std::cout<<something<<std::endl;
+    }
+    else{
+        std::cout<<something;
+    }
 }
 
 // #######################################################################

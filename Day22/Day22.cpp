@@ -5,7 +5,6 @@
 #include <regex>
 #include <set>
 #include <tuple>
-#include <algorithm>
 #include <map>
 #include <set>
 #include <cmath>
@@ -40,17 +39,21 @@ struct Cube{
     }
 };
 
-vector<Cube> readFile(string filename, bool only_reboot=false, int reboot_limit=0){
+struct ReqData{
+    vector<Cube> reboot_steps;
+    vector<Cube> steps;
+};
+
+ReqData readFile(string filename, int reboot_limit=0){
     string line;
     ifstream myfile (filename);
 
-    vector<Cube> instructions;
+    ReqData instructions;
 
     if (myfile.is_open())
     {
         while ( getline(myfile, line) )
         {
-            // cout<<line<<endl;
             const regex r("(on|off) x=(-?\\d*)..(-?\\d*),y=(-?\\d*)..(-?\\d*),z=(-?\\d*)..(-?\\d*)");  
             smatch result;
 
@@ -63,21 +66,20 @@ vector<Cube> readFile(string filename, bool only_reboot=false, int reboot_limit=
                 int z_min = stoi(result[6]);
                 int z_max = stoi(result[7]);
                 bool is_on = result[1]=="on";
-                if(only_reboot){
-                    if( -reboot_limit <= x_min && x_min <= reboot_limit &&
-                        -reboot_limit <= x_max && x_max <= reboot_limit &&
-                        -reboot_limit <= y_min && y_min <= reboot_limit &&
-                        -reboot_limit <= y_max && y_max <= reboot_limit &&
-                        -reboot_limit <= z_min && z_min <= reboot_limit &&
-                        -reboot_limit <= z_max && z_max <= reboot_limit){
-                        Cube ins1( x_min, x_max, y_min, y_max, z_min, z_max, is_on );
-                        instructions.push_back(ins1);
-                    }
+                Cube ins( x_min, x_max, y_min, y_max, z_min, z_max, is_on );
+                // Checks for Part 1 sequence of steps
+                if( -reboot_limit <= x_min && x_min <= reboot_limit &&
+                    -reboot_limit <= x_max && x_max <= reboot_limit &&
+                    -reboot_limit <= y_min && y_min <= reboot_limit &&
+                    -reboot_limit <= y_max && y_max <= reboot_limit &&
+                    -reboot_limit <= z_min && z_min <= reboot_limit &&
+                    -reboot_limit <= z_max && z_max <= reboot_limit){
 
+                    instructions.reboot_steps.push_back(ins);
+                    instructions.steps.push_back(ins);
                 }
                 else{
-                    Cube ins2( x_min, x_max, y_min, y_max, z_min, z_max, is_on );
-                    instructions.push_back(ins2);
+                    instructions.steps.push_back(ins);
                 }
             }
         }
@@ -142,7 +144,7 @@ updates (map) :
         }
 */
 
-// utility function specifically for this problem
+// Utility functions specifically for this problem
 set<CUBE_TUP> mapKeyToSet(map<CUBE_TUP, int> dict){
     set<CUBE_TUP> s;
     // m = pair<CUBE_TUP, int>
@@ -164,12 +166,21 @@ pair<int, int> indexTuple(CUBE_TUP tup, int index){
     }
 }
 
-int cubeVol(CUBE_TUP b1){
+void printCubeTup(CUBE_TUP v){
+    cout<<"( ";
+    cout<<"("<<get<0>(v).first<<","<<get<0>(v).second<<"),";
+    cout<<"("<<get<1>(v).first<<","<<get<1>(v).second<<"),";
+    cout<<"("<<get<2>(v).first<<","<<get<2>(v).second<<"),";
+    cout<<" )"<<endl;
+}
+
+// For both Part 1 & 2
+int64_t cubeVol(CUBE_TUP b1){
     pair<int, int> x = indexTuple(b1, 0);
     pair<int, int> y = indexTuple(b1, 1);
     pair<int, int> z = indexTuple(b1, 2);
 
-    return (abs(x.second - x.first)+1) * (abs(y.second - y.first)+1) * (abs(z.second - z.first)+1);
+    return (int64_t)(abs(x.second - x.first)+1) * (abs(y.second - y.first)+1) * (abs(z.second - z.first)+1);
 }
 
 pair<CUBE_TUP, int> overlaps(CUBE_TUP b1, CUBE_TUP b2){
@@ -193,17 +204,15 @@ pair<CUBE_TUP, int> overlaps(CUBE_TUP b1, CUBE_TUP b2){
 
 map<CUBE_TUP, int> count(vector<Cube> steps){
     map<CUBE_TUP, int> counts;
-    int n = steps.size();
 
     // i => object instance of Cube struct 
     for(auto i : steps){
         bool sw = i.to_do;
         CUBE_TUP bounds = i.return3DTuple();
-        map<CUBE_TUP, int> updates;
+        map<CUBE_TUP, int64_t> updates;
         set<CUBE_TUP> keys = mapKeyToSet(counts);
         // cube => ((-18, 12), (-24, 6), (-4, 6))
         // cube = <CUBE_TUP>
-        // Print(keys.size());
         for(auto cube : keys){
             pair<CUBE_TUP, int> overlapping = overlaps(bounds, cube);
             if( overlapping.second==0 ){
@@ -217,7 +226,7 @@ map<CUBE_TUP, int> count(vector<Cube> steps){
         }
 
         for(auto c : updates){
-            counts[c.first] += updates[c.first];
+            counts[c.first] += c.second;
         }
     }
 
@@ -226,12 +235,13 @@ map<CUBE_TUP, int> count(vector<Cube> steps){
 
 int main() {
     // ~wrangle()
-    vector<Cube> reboot_steps = readFile("input.txt", true, 50);
-    vector<Cube> steps = readFile("input.txt");
+    ReqData req_data = readFile("input.txt", 50);
+    vector<Cube> reboot_steps = req_data.reboot_steps;
+    vector<Cube> steps = req_data.steps;
 
     // Part 1
     map<CUBE_TUP, int> counts1 = count(reboot_steps);
-    uint64_t p1 = 0;
+    int64_t p1 = 0;
     for(auto cube : counts1){
         p1 += cubeVol(cube.first)*cube.second;
     }
@@ -239,11 +249,11 @@ int main() {
 
     // Part 2
     map<CUBE_TUP, int> counts2 = count(steps);
-    uint64_t p2 = 0;
+    int64_t p2 = 0;
     for(auto cube : counts2){
         p2 += cubeVol(cube.first)*cube.second;
     }
     cout<<p2<<endl;// 1214313344725528
-                   // 96025375256
+
     return 0;
 }
