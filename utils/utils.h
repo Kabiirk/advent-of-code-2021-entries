@@ -243,6 +243,13 @@ std::vector<long> splitToVectorLong(std::string line){
     return output_vector;
 }
 
+std::string joinVecAsString(std::vector<int> v){
+    std::string s;
+    for(auto a : v){
+        s+=std::to_string(a);
+    }
+    return s;
+}
 
 // #######################################################################
 // Map Related Methods
@@ -293,6 +300,15 @@ void printSetPair(std::set<std::pair<I, J>> s){
     std::cout<<"{ ";
     for(auto itr : s){
         std::cout<<"("<<itr.first<<","<<itr.second<<") ";
+    }
+    std::cout<<"}"<<std::endl;
+}
+
+template <typename K>
+void printSet(std::set<K> s){
+    std::cout<<"{ ";
+    for(auto a : s){
+        std::cout<<a<<", ";
     }
     std::cout<<"}"<<std::endl;
 }

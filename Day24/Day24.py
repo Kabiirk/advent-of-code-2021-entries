@@ -13,5 +13,9 @@ with open("input.txt", 'r') as file:
                 a, b, delta = b, a, -delta
             mx[a], mx[b] = 9, 9 - delta
             mn[b], mn[a] = 1, 1 + delta
-    print(''.join([str(x) for x in mx]))
-    print(''.join([str(x) for x in mn]))
+    
+    # Part 1
+    print(''.join([str(x) for x in mx]))# 93959993429899
+
+    # Part 2
+    print(''.join([str(x) for x in mn]))# 11815671117121
