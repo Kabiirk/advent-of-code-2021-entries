@@ -1,4 +1,3 @@
-
 ### **--- Day 25: Sea Cucumber ---**
 This is it: the bottom of the ocean trench, the last place the sleigh keys could be. Your submarine's experimental antenna still isn't boosted enough to detect the keys, but they must be here. All you need to do is reach the seafloor and find them.
 
@@ -309,7 +308,7 @@ Boost strength due to matching signal phase: **1 star**
 
 Only **49 stars** to go. 
 
-If you like, you can [Remotely Start The Sleigh Again].
+If you like, you can **[ Remotely Start The Sleigh Again ]**.
 
 **Both parts of this puzzle are complete! They provide two gold stars: \*\***
 
