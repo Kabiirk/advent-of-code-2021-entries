@@ -175,7 +175,7 @@ T printVector( std::vector<T> vec, bool newline=false){
         2. Print Multi-dimensional vectors
     */
 
-    std::cout<<"< "<<std::endl;
+    std::cout<<"< ";
     for(auto it : vec){
         if(newline){
             std::cout<<it<<std::endl;

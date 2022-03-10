@@ -4,13 +4,91 @@
 #include <string>
 #include <vector>
 #include <regex>
-#include <tuple>
-#include <map>
-#include <set>
+#include "../utils/utils.h"
 
 using namespace std;
 
-tuple< vector<int>, vector<vector<vector<int>>> > readFile(string filename){
+using BOARD = vector< vector<int> >;
+using BOARDBOOL = vector< vector<bool> >;
+
+class Board{
+    public:
+        // Contructor
+        explicit Board(BOARD board){
+            numbers = board;
+        };
+
+    bool hasWon(){
+        for(int row=0; row<5; row++){
+            if(winningRow(row)){
+                return true;
+            }
+        }
+
+        for(int col=0; col<5; col++){
+            if(winningCol(col)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void mark(const int num){
+        for(int row=0; row<5; row++){
+            for(int col=0; col<5; col++){
+                if(num == numbers[row][col]){
+                    marked[row][col] = true;
+                }
+            }
+        }
+    }
+
+    int score(const int called_number){
+        int unmarked_sum = 0;
+        for(int row=0; row<5; row++){
+            for(int col=0; col<5; col++){
+                if(!marked[row][col]){
+                    unmarked_sum  += numbers[row][col];
+                }
+            }
+        }
+
+        return unmarked_sum * called_number;
+    }
+
+    private:
+        bool winningRow(int row){
+            // std::count
+            return count(marked[row].begin(), marked[row].end(), true) == 5;
+        }
+
+        bool winningCol(int col){
+            for(int row=0; row<5; row++){
+                if(!marked[row][col]){
+                    return false;
+                }
+            }
+            return true;
+        }
+        BOARD numbers;
+        // The below initialization isn't working :(
+        // BOARDBOOL marked(5, vector<bool>( 5, false ) );
+        BOARDBOOL marked = {
+            {false,false,false,false,false},
+            {false,false,false,false,false},
+            {false,false,false,false,false},
+            {false,false,false,false,false},
+            {false,false,false,false,false},
+        };
+};
+
+struct ReqData{
+    vector<int> nums;
+    vector<Board> boards;
+};
+
+ReqData readFile(string filename){
     /*
     Desired Vector shapes :
     nums = < 1, 2, 3, 4 .... >
@@ -25,19 +103,16 @@ tuple< vector<int>, vector<vector<vector<int>>> > readFile(string filename){
     >
     */
     vector<vector<int>> full_data;
-    vector<int> line_data;
-    vector<int> nums;
+    ReqData req_data;
     string line;
     ifstream myfile (filename);
-    int blank = 0;
 
     if (myfile.is_open())
     {
         while ( getline(myfile, line) )
         {
             if(line.length() == 0){
-                //cout<<"blank !"<<endl;
-                blank++;
+                continue;
             }
             else if(line.length() > 14){
                 stringstream ss(line);
@@ -45,27 +120,18 @@ tuple< vector<int>, vector<vector<vector<int>>> > readFile(string filename){
                 while(ss.good()){
                     string substr;
                     getline(ss, substr, ',');
-                    nums.push_back(stoi(substr));
+                    req_data.nums.push_back(stoi(substr));
                 }
             }
             else{
                 const regex r("(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)(\\s*)(\\d*)");
                 smatch result;
                 if(regex_search(line, result, r)){
-                    //cout<<line<<endl;
-                    //cout<<result[1]<<"->"<<result[3]<<"->"<<result[5]<<"->"<<result[7]<<"->"<<result[9]<<endl;
-                    // TODO : Find a faster/better way to do this
-                    line_data.push_back(stoi(result[2]));
-                    line_data.push_back(stoi(result[4]));
-                    line_data.push_back(stoi(result[6]));
-                    line_data.push_back(stoi(result[8]));
-                    line_data.push_back(stoi(result[10]));
+                    vector<int> line_data{ stoi(result[2]), stoi(result[4]), stoi(result[6]), stoi(result[8]), stoi(result[10]) };
                     full_data.push_back(line_data);
                     // Best practice to clear vector AND de-allocate memory
                     // Ref. : https://www.techiedelight.com/delete-vector-free-memory-cpp/
-                    // line_data.resize(0);
-                    // line_data.shrink_to_fit();
-                    vector<int>().swap(line_data);
+                    // vector<int>().swap(line_data);
                 }
             }
         }
@@ -73,12 +139,11 @@ tuple< vector<int>, vector<vector<vector<int>>> > readFile(string filename){
     }
     else cout << "Unable to open file";
 
-    // Re-arranging full_data into Desired Vector shape
-    vector< vector< vector<int> > > boards;
+    // Re-arranging full_data into Desired vector of Board class
     int track = 0;
 
     while( full_data.size() > 0 ){
-        vector<vector<int>> current_board;
+        BOARD current_board;
         while(track < 5){
             vector<int> current_line;
             current_line = *full_data.begin();
@@ -88,136 +153,53 @@ tuple< vector<int>, vector<vector<vector<int>>> > readFile(string filename){
             track++;
         }
         track = 0;
-        boards.push_back(current_board);
+
+        Board board(current_board);
+        req_data.boards.push_back(board);
     }
 
-    return make_tuple(nums, boards);
+    return req_data;
 }
 
-class Board{
-    public:
-        vector<int> col_hits, row_hits;
-        bool has_bingo;
-        map<int, tuple<int, int>> nums;
-
-        // Constructor
-        Board( vector<vector<int>> board ){
-
-            // for testing
-            for(auto row : board){
-                for(auto col : row){
-                    cout<<col<<" ";
-                }
-                cout<<endl;
-            }
-            cout<<endl;
-            int height = board.size();
-            int width = board[0].size();
-
-            for(int i=0; i<width; i++){
-                this->col_hits.push_back(height);
-            }
-
-            for(int j=0; j<height; j++){
-                this->row_hits.push_back(width);
-            }
-
-            for(int y = 0; y<board.size();y++ ){
-                for(int x = 0; x<board[y].size(); x++){
-                    this->nums[board[y][x]] = make_tuple(x, 1);
+int solve(ReqData data, bool part_2=false){
+    // Part 1
+    if(!part_2){
+        for(auto call : data.nums){
+            for(auto& board : data.boards){
+                board.mark(call);
+                if(board.hasWon()){
+                    return board.score(call);
                 }
             }
-
-            this->has_bingo = false;
-        }
-
-        void call(int num){
-            tuple<int, int> position = this->nums[num];
-            this->nums.erase(num);
-
-            //cout<<endl;
-            
-            int x = get<1>(position);
-            int y = get<0>(position);
-
-            this->col_hits[x]-=1;
-            this->row_hits[y]-=1;
-            
-            this->has_bingo = this->has_bingo || (!this->col_hits[x]) || (!this->row_hits[y]);
-        }
-
-        int unmarkedSum(){
-            int sum = 0;
-            for(map<int, tuple<int, int>>::iterator it = this->nums.begin(); it != this->nums.end(); ++it){
-                sum+=it->first;
-            }
-
-            return sum;
-        }
-
-        // Static Methods
-        // static Board toClassObject( vector<vector<int>> board ){
-        //     return Board(board);
-        // }
-};
-
-
-void printBoardNums(Board bo){
-    cout<<"{ ";
-    for( map<int, tuple<int,int> >::const_iterator it = bo.nums.begin();it != bo.nums.end(); ++it){
-        int a1 = get<0>(it->second);
-        int b1 = get<1>(it->second);
-        cout<<it->first<<" ";//<<": "<<"("<<a1<<", "<<b1<<"), ";
-    }
-    cout<<" }"<<endl;
-
-}
-tuple<int, int> solve( vector<int> nums, vector<Board> boards ){
-    set<int> won;
-    vector<int> wins;
-    for(auto num : nums){
-        for(int j = 0; j<boards.size(); j++){
-            bool is_in_win = won.find(j) != won.end();
-            if(is_in_win){
-                continue;
-            }
-            
-            boards[j].call(num);
-
-            if(boards[j].has_bingo){
-                printBoardNums(boards[j]);
-                cout<<"Num : "<<num<<" US : "<<boards[j].unmarkedSum() <<endl;
-                won.insert(j);
-                wins.push_back(num*boards[j].unmarkedSum());
-            }
         }
     }
-    for(auto win:wins){
-        cout<<"WIN "<<win<<endl;
+    // Part 2
+    else{
+        for(auto call : data.nums){
+            vector<Board> remaining_boards;
+            for(auto& board : data.boards){
+                board.mark(call);
+                if(!board.hasWon()){
+                    remaining_boards.push_back(board);
+                }
+                else if(data.boards.size() == 1){
+                    return board.score(call);
+                }
+            }
+            data.boards = move(remaining_boards);
+        }
     }
-    return make_tuple(wins[0],wins[wins.size()-1]);
 }
 
-int main() {
-    auto data = readFile("input.txt");
-    vector<int> nums = get<0>(data);
-    vector<vector<vector<int>>> boards = get<1>(data);
-    // Find way to better use the memory
-    vector<Board> B;
-    // for(int i = 0; i<boards.size(); i++){
-    //     Board b(boards[i]);
-    //     B.push_back(b);
-    // }
-    // tuple<int, int> result = solve(nums, C);
-    // cout<<get<0>(result)<<endl;
-    // cout<<get<1>(result)<<endl;
 
-    // Testing
-    vector<Board> C;
-    Board c(boards[99]);
-    C.push_back(c);
-    tuple<int, int> result = solve(nums, C);
-    cout<<get<0>(result)<<endl;
-    cout<<get<1>(result)<<endl;
+int main(){
+    ReqData data = readFile("input.txt");
+
+    // Part 1
+    cout<<solve(data)<<endl;// 14093
+
+    // Part 2
+    cout<<solve(data, true)<<endl;// 17388
+
     return 0;
 }
