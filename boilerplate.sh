@@ -1,4 +1,4 @@
-if [ $# -ne 1 ]
+if [ $# -ne 2 ]
   then
     echo "Improper number of arguments supplied"
     exit 1
@@ -13,29 +13,35 @@ fi
 
 mkdir Day$1/
 
-echo "#include <iostream>
-#include <fstream>
-#include <string>
-
-using namespace std;
-
-void readFile(string filename){
-    string line;
-    ifstream myfile (filename);
-
-    if (myfile.is_open()){
-        while ( getline(myfile, line) ){
-            cout<<line<<endl;
+if [ $2 -eq "py" ]
+  then
+    echo "
+    print(\"Hello World\")
+    " > Day$1/Day$1.py;
+  else
+    echo "#include <iostream>
+    #include <fstream>
+    #include <string>
+    
+    using namespace std;
+    
+    void readFile(string filename){
+        string line;
+        ifstream myfile (filename);
+    
+        if (myfile.is_open()){
+            while ( getline(myfile, line) ){
+                cout<<line<<endl;
+            }
         }
+        else cout << \"Unable to open file\";
     }
-    else cout << \"Unable to open file\";
-}
-
-int main() {
-    cout<<\"Hello World!\"<<endl;
-
-    return 0;
-}" > Day$1/Day$1.cpp;
+    
+    int main() {
+        cout<<\"Hello World!\"<<endl;
+    
+        return 0;
+    }" > Day$1/Day$1.cpp;
 
 echo "
 ### **--- $1: ---**
