@@ -1,6 +1,6 @@
 depths = []
 
-with open('input1.txt', 'r') as f:
+with open('input.txt', 'r') as f:
     for line in f:
         depths.append(int(line.strip()))
 
