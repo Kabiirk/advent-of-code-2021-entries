@@ -2,9 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <cmath>
-#include <memory>
-#include <variant>
+#include <limits>
 #include "../utils/utils.h"
 
 using namespace std;
@@ -26,226 +24,381 @@ vector<string> readFile(string filename){
     return file_output;
 }
 
-class Number{
-    public:
-        static unique_ptr<Number> parse(string rep, Number* parent = nullptr){
-            auto num = make_unique<Number>();
-            num->parent_ = parent;
-
-            if(rep.front()=='['){}
-            int depth = 0;
-            int comma = -1;
-            for(int pos = 0; pos<rep.size(); pos++){
-                switch(rep[pos]){
-                    case '[':
-                        depth++;
-                        break;
-                    case ']':
-                        depth--;
-                        break;
-                    case ',':
-                        if(depth == 1){
-                            comma = pos;
-                        }
-                        break;
-                }
-            }
-            if(depth==0){};
-            if(comma != -1){};
-
-            string left_rep = rep.substr(1,comma-1);
-            string right_rep = rep.substr(comma+1);
-            right_rep.pop_back();
-
-            int left_int = 0;
-            if(stoi(left_rep)){
-                num->left_ = left_int;
-            }
-            else{
-                num->left_ = parse(left_rep, num.get());
-            }
-
-            int right_int = 0;
-            if(stoi(right_rep)){
-                num->right_ = right_int;
-            }
-            else{
-                num->right_ = parse(right_rep, num.get());
-            }
-
-            return num;
-        }
-
-        static unique_ptr<Number> add(unique_ptr<Number> left, unique_ptr<Number> right){
-            auto num = make_unique<Number>();
-            left->parent_ = num.get();
-            right->parent_ = num.get();
-            num->left_ = move(left);
-            num->right_ = move(right);
-
-            return num;
-        }
-
-
-        void reduce(){
-            for(;;){
-                if(maybeExplode(1)){
-                    continue;
-                }
-                if(maybeSplit()){
-                    continue;
-                }
-                return;
-            }
-        }
-
-        int64_t magnitude() const {
-            int mag = 0;
-            if(left_.index() == 0){
-                mag+= 3*get<0>(left_);
-            }
-            else{
-                mag += 3*get<1>(left_)->magnitude();
-            }
-            if(right_.index() == 0){
-                mag+= 2*get<0>(right_);
-            }
-            else{
-                mag += 2*get<1>(right_)->magnitude();
-            }
-
-            return mag;
-        }
-
-    private:
-    int Explode() const {
-            if(holds_alternative<int>(left_)){}
-            if(holds_alternative<int>(right_)){}
-            int* left_of_pair = findLeft();
-            if(left_of_pair != nullptr){
-                *left_of_pair += get<0>(left_);
-            }
-
-            int* right_of_pair = findRight();
-            if(right_of_pair != nullptr){
-                *right_of_pair += get<0>(right_);
-            }
-
-            return 0;
-        }
-
-        unique_ptr<Number> split(int value){
-            auto num = make_unique<Number>();
-            num->parent_ = this;
-            num->left_ = static_cast<int>(floor(static_cast<double>(value)/2.0));
-            num->right_ = static_cast<int>(ceil(static_cast<double>(value)/2.0));
-
-            return num;
-        }
-
-        bool maybeExplode(int depth){
-            if(depth == 4){
-                if(left_.index() == 1){
-                    left_ = get<1>(left_)->Explode();
-                    return true;
-                }
-                
-                if(right_.index() == 1){
-                    right_ = get<1>(right_)->Explode();
-                    return true;
-                }
-            }
-            if(left_.index() == 1 && get<1>(left_)->maybeExplode(depth+1)){
-                return true;
-            }
-            if(right_.index() == 1 && get<1>(right_)->maybeExplode(depth+1)){
-                return true;
-            }
-
-            return false;
-        }
-
-        bool maybeSplit(){
-            if(left_.index() == 0 && get<0>(left_)>=10){
-                left_ = split(get<0>(left_));
-                return true;
-            }
-            if(left_.index() == 1 && get<1>(left_)->maybeSplit()){
-                return true;
-            }
-
-            if(right_.index() == 0 && get<0>(right_)>=10){
-                right_ = split(get<0>(right_));
-                return true;
-            }
-            if(right_.index() == 1 && get<1>(right_)->maybeSplit()){
-                return true;
-            }
-
-            return false;
-        }
-
-        int* leftMost(){
-            if(left_.index() == 0){
-                return &get<0>(left_);
-            }
-            return get<1>(left_)->leftMost();
-        }
-        int* rightMost(){
-            if(right_.index() == 0){
-                return &get<0>(right_);
-            }
-            return get<1>(right_)->rightMost();
-        }
-
-        int* findLeft() const {
-            if(parent_ == nullptr){
-                return nullptr;
-            }
-            if(parent_->left_.index() == 1 && get<1>(parent_->left_).get() == this){
-                return parent_->findLeft();
-            }
-            if(parent_->right_.index() == 1 && get<1>(parent_->right_).get() == this){
-            }
-
-            if(parent_->left_.index() == 0){
-                return &get<0>(parent_->left_);
-            }
-            return get<1>(parent_->left_)->rightMost();
-        }
-
-        int* findRight() const {
-            if(parent_ == nullptr){
-                return nullptr;
-            }
-            if(parent_->right_.index() == 1 && get<1>(parent_->right_).get() == this){
-                return parent_->findRight();
-            }
-            if(parent_->left_.index() == 1 && get<1>(parent_->left_).get() == this){
-            }
-
-            if(parent_->right_.index() == 0){
-                return &get<0>(parent_->right_);
-            }
-            return get<1>(parent_->right_)->leftMost();
-        }
-
-        Number* parent_ = nullptr;
-        variant<int, unique_ptr<Number>> left_;
-        variant<int, unique_ptr<Number>> right_;
+struct Node{
+    int value = -1;
+    int left_v = -1;
+    int right_v = -1;
+    Node* left = nullptr;
+    Node* right = nullptr;
 };
 
-int main() {
-    vector<string> blowfish_numbers = readFile("input.txt");
-
-    unique_ptr<Number> result = Number::parse(blowfish_numbers.front());
-    for(auto line = blowfish_numbers.begin()+1; line != blowfish_numbers.end(); ++line){
-        unique_ptr<Number> next = Number::parse(*line);
-        result = Number::add(move(result), move(next));
-        result->reduce();
+Node* convertToTree(string& s, int& index){
+    auto n = new Node();
+    if(s[index] == '['){
+        if(s[index+1] == '['){
+            index++;
+            n->left = convertToTree(s, index);
+        }
+        else{
+            const auto index2 = s.find(",", index+1);
+            n->left_v = stoi(s.substr(index+1, index2-index-1));
+            index = index2;
+        }
     }
 
-    Print(result->magnitude());
+    if(s[index] == ','){
+        if(s[index+1]=='['){
+            index++;
+            n->right = convertToTree(s, index);
+        }
+        else{
+            const auto index2 = s.find("]", index+1);
+            n->right_v = stoi(s.substr(index+1, index2-index-1));
+            index = index2;
+        }
+    }
+
+    index++;
+    return n;
+}
+
+void setValueToNOne(Node* n){
+    if(n->left_v == -1){
+        setValueToNOne(n->left);
+    }
+    n->value = -1;
+    if(n->right_v == -1){
+        setValueToNOne(n->right);
+    }
+}
+
+Node* checkExplode(Node* n, int level){
+    if(level >= 4){
+        if(n->left==nullptr && n->right==nullptr){
+            return n;
+        }
+    }
+
+    if(n->left != nullptr){
+        auto returned_node = checkExplode(n->left, level+1);
+        if(returned_node != nullptr){
+          return returned_node;
+        }
+    }
+
+    if(n->right != nullptr){
+        auto returned_node = checkExplode(n->right, level+1);
+        if(returned_node != nullptr){
+          return returned_node;
+        }
+    }
+
+    return nullptr;
+}
+
+pair<bool, Node*> traverseUpdateExplodedLR(Node* n, Node* exploded, Node*& prev){
+    if(n->left_v != -1){
+        prev=n;
+    }
+    else{
+        if(n->left == exploded){
+            if(prev != nullptr && prev->right == nullptr){
+                prev->right_v += exploded->left_v;
+            }
+            else if(prev != nullptr && prev->left == nullptr){
+                prev->left_v += exploded->left_v;
+            }
+
+            return make_pair(true, n);
+        }
+        else{
+            // found_node = <bool, Node*>
+            auto found_node = traverseUpdateExplodedLR(n->left, exploded, prev);
+            if(found_node.first){
+                return make_pair(true, found_node.second);
+            }
+        }
+    }
+
+    if(n->right_v != -1){
+        prev=n;
+    }
+    else{
+        if(n->right == exploded){
+            if(prev != nullptr && prev->right == nullptr){
+                prev->right_v += exploded->right_v;
+            }
+            else if(prev != nullptr && prev->left == nullptr){
+                prev->left_v += exploded->left_v;
+            }
+
+            return make_pair(true, n);
+        }
+        else{
+            // found_node = <bool, Node*>
+            auto found_node = traverseUpdateExplodedLR(n->right, exploded, prev);
+            if(found_node.first){
+                return make_pair(true, found_node.second);
+            }
+        }
+    }
+
+    return make_pair(false, nullptr);
+}
+
+pair<bool, Node*> traverseUpdateExplodedRL(Node* n, Node* exploded, Node*& prev){
+    if(n->right_v != -1){
+        prev=n;
+    }
+    else{
+        if(n->right == exploded){
+            if(prev != nullptr && prev->left == nullptr){
+                prev->left_v += exploded->right_v;
+            }
+            else if(prev != nullptr && prev->right == nullptr){
+                prev->right_v += exploded->right_v;
+            }
+
+            return {true, n};
+        }
+        else{
+            // found_node = <bool, Node*>
+            auto found_node = traverseUpdateExplodedRL(n->right, exploded, prev);
+            if(found_node.first){
+                return {true, found_node.second};
+            }
+        }
+    }
+
+    if(n->left_v != -1){
+        prev=n;
+    }
+    else{
+        if(n->left == exploded){
+            if(prev != nullptr && prev->left == nullptr){
+                prev->left_v += exploded->right_v;
+            }
+            else if(prev != nullptr && prev->right == nullptr){
+                prev->right_v += exploded->right_v;
+            }
+
+            return {true, n};
+        }
+        else{
+            // found_node = <bool, Node*>
+            auto found_node = traverseUpdateExplodedRL(n->left, exploded, prev);
+            if(found_node.first){
+                return {true, found_node.second};
+            }
+        }
+    }
+
+    return {false, nullptr};
+}
+
+bool explode(Node* root){
+    auto prev = root;
+    auto index = 0;
+    auto exploded_node = checkExplode(root, index);
+    if(exploded_node != nullptr){
+          prev = nullptr;
+          // found_to_update_l = <bool, Node*>
+          auto found_to_update_l = traverseUpdateExplodedLR(root, exploded_node, prev);
+          prev = nullptr;
+          // found_to_update_r = <bool, Node*>
+          auto found_to_update_r = traverseUpdateExplodedRL(root, exploded_node, prev);
+
+          if(found_to_update_l.second!=nullptr && found_to_update_l.second->left == exploded_node){
+              found_to_update_l.second->left = nullptr;
+              found_to_update_l.second->left_v = 0;
+          }
+          if(found_to_update_r.second!=nullptr && found_to_update_r.second->right == exploded_node){
+              found_to_update_r.second->right = nullptr;
+              found_to_update_r.second->right_v = 0;
+          }
+          delete exploded_node;
+    }
+
+    return exploded_node!=nullptr;
+}
+
+bool split(Node* n){
+    if(n->left == nullptr){
+        if(n->left_v >= 10){
+            n->left = new Node();
+            n->left->left_v = n->left_v/2;
+            n->left->right_v = n->left_v - n->left->left_v;
+            n->left_v = -1;
+            return true;
+        }
+    }
+    else{
+        auto found = split(n->left);
+        if(found){
+          return true;
+        }
+    }
+
+    if(n->right == nullptr){
+        if(n->right_v >= 10){
+            n->right = new Node();
+            n->right->left_v = n->right_v/2;
+            n->right->right_v = n->right_v - n->right->left_v;
+            n->right_v = -1;
+            return true;
+        }
+    }
+    else{
+        auto found = split(n->right);
+        if(found){
+          return true;
+        }
+    }
+
+    return false;
+}
+
+int findAppropriateAction(Node* n, int level){
+    if(level >= 4 && n->left==nullptr && n->right==nullptr){
+        return 1;// explodeable
+    }
+
+    if(n->left_v != -1){
+        if(n->left_v >= 10){
+            return 2;// splittable
+        }
+    }
+    else{
+        auto ans = findAppropriateAction(n->left, level+1);
+        if(ans != 0){
+            return ans;
+        }
+    }
+
+    if(n->right_v != -1){
+        if(n->right_v >= 10){
+            return 2;// splittable
+        }
+    }
+    else{
+        auto ans = findAppropriateAction(n->right, level+1);
+        if(ans != 0){
+            return ans;
+        }
+    }
+
+    return 0;
+}
+
+void sumNodes(Node *n){
+    n->value = 0;
+
+    if(n->left != nullptr){
+        if(n->left->value == -1){
+            sumNodes(n->left);
+        }
+        n->value += 3*n->left->value;
+    }
+    else{
+        n->value += 3*n->left_v;
+    }
+
+    if(n->right != nullptr){
+        if(n->right->value == -1){
+            sumNodes(n->right);
+        }
+        n->value += 2*n->right->value;
+    }
+    else{
+        n->value += 2*n->right_v;
+    }
+}
+
+int partOne(vector<string> numbers){
+    int len = numbers.size();
+
+    string line = numbers[0];
+    auto index = 0;
+    auto prev = convertToTree(line, index);
+    auto root = prev;
+
+    for(int i = 1; i<len; i++){
+        Node* n = new Node();
+        n->left = prev;
+        index = 0;
+        n->right = convertToTree(numbers[i], index);
+        prev = n;
+
+        while(true){
+            if(explode(n)){
+                continue;
+            }
+            if(split(n)){
+              continue;
+            }
+
+            break;
+        }
+
+        root = n;
+    }
+
+    setValueToNOne(root);
+    sumNodes(root);
+
+    return root->value;
+}
+
+int partTwo(vector<string> numbers){
+    int max_val = numeric_limits<int>::min();
+    int i1 = 0;
+    int i2 = 0;
+
+    int len = numbers.size();
+    for(int i = 0; i<len; i++){
+        for(int j = 0; j<len; j++){
+            if(i==j){
+                continue;
+            }
+            auto n = new Node();
+            int index = 0;
+            n->left = convertToTree(numbers[i], index);
+            index = 0;
+            n->right = convertToTree(numbers[j], index);
+
+            while(true){
+                if(explode(n)){
+                    continue;
+                }
+                if(split(n)){
+                    continue;
+                }
+                break;
+            }
+
+            setValueToNOne(n);
+            sumNodes(n);
+
+            if(n->value > max_val){
+                i1 = i;
+                i2 = j;
+                max_val = n->value;
+            }
+        }
+    }
+
+    return max_val;
+}
+
+int main(){
+    vector<string> blowfish_numbers = readFile("input.txt");
+    // printVector(blowfish_numbers, true);
+
+    // Part 1
+    cout<<partOne(blowfish_numbers)<<endl;// 4057
+
+    // Part 2
+    cout<<partTwo(blowfish_numbers)<<endl;// 4683
 
     return 0;
 }
