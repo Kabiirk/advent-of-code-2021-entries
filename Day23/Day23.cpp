@@ -230,10 +230,54 @@ bool operator<(Burrow& b1, Burrow& b2){
     return b1.rooms < b2.rooms;
 }
 
+pair<int, list<Burrow>> search(Burrow &start){
+    multimap<int, list<Burrow>> to_search;
+    to_search.emplace(0, list<Burrow>(1, start));
+
+    // Pointer from final burrow state to corresponding entry in
+    // to_search
+    map<Burrow, decltype(to_search)::iterator> path_to;
+    path_to[start] = to_search.begin();
+
+    while(!to_search.empty()){
+        auto cb = *to_search.begin();
+        int cost = cb.first;
+        list<Burrow> &bs = cb.second;
+        Burrow &b = bs.back();
+
+        // remove from path_to()
+        auto pt = path_to.find(b);
+        assert(pt != path_to.end() && pt->second == to_search.begin());
+        path_to.erase(pt);
+
+        if(b.allHome()){
+            return cb;
+        }
+        for(auto &next : b.successor()){
+            int next_cost = cost + next.second;
+            auto pt = path_to.find(next.first);
+            if(pt != path_to.end()){
+                if(pt->second->first <= next_cost){
+                    // Already reached this state via a path that's at least as
+                    // good
+                    continue;
+                }
+                to_search.erase(pt->second);
+                path_to.erase(pt);
+            }
+            auto next_bs(bs);
+            next_bs.push_back(next.first);
+            path_to[next.first] = to_search.emplace(next_cost, next_bs);
+        }
+    }
+
+    assert(false && "No Solution found");
+}
+
 int main() {
     // readFile("input.txt");
 
-    // Part 1// 14346
+    // Part 1
     /* Input :
     #############
     #...........#
@@ -253,7 +297,10 @@ int main() {
         {{'D','B'}}
     }};
     Burrow b(hallway, rooms);
-    b.printBurrow();
+    auto cost_and_steps = search(b);
+    // for(auto &step : cost_and_steps.second){
+    // }
+    cout<<cost_and_steps.first<<endl;// 14346
 
     // Part 2// 48984
     /* Input :
