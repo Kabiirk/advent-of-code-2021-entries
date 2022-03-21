@@ -1,11 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
 #include <string>
 #include <map>
 #include <array>
 #include <list>
-#include <stdio.h>
 #include <assert.h>
 #include "../utils/utils.h"
 
@@ -43,7 +41,6 @@ class Burrow{
     }
 
     void printBurrow(){
-        Print(rooms[0].size());
         cout<<" #############"<<endl;
         cout<<" #";
         for(int i = 0; i < hallway.size(); i++){
@@ -290,13 +287,12 @@ class LongBurrow{
     }
 
     void printBurrow(){
-        Print(rooms[0].size());
-        cout<<" #############"<<endl;
+        cout<<" #############"<<"\n";
         cout<<" #";
         for(int i = 0; i < hallway.size(); i++){
             cout<<hallway[i];
         }
-        Print("#");
+        cout<<"#";
         printf(" ###%c#%c#%c#%c###\n", rooms[0][0], rooms[1][0], rooms[2][0], rooms[3][0]);
         for(int i = 1; i < rooms[0].size(); ++i){
             printf("   #%c#%c#%c#%c#\n", rooms[0][i], rooms[1][i], rooms[2][i], rooms[3][i]);
@@ -542,7 +538,7 @@ int main() {
     auto cost_and_steps = search(b);
     cout<<cost_and_steps.first<<endl;// 14346
 
-    // Part 2// 48984
+    // Part 2
     /* Input :
     #############
     #...........#
