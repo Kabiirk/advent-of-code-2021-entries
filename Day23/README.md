@@ -99,6 +99,10 @@ Finally, the last Amber amphipod moves into its room, using ```8``` energy:
 
 > **My Answer : 14346**
 
+> **BONUS : Animated Approach**
+>
+> ![Day23 Part 1](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/media/Part1.gif)
+
 [Code]()
  
 ------
@@ -328,6 +332,10 @@ In this updated example, the least energy required to organize these amphipods i
 Using the initial configuration from the full diagram, **what is the least energy required to organize the amphipods ?**
 
 > **My Answer : 48984**
+
+> **BONUS : Animated Approach**
+>
+> ![Day23 Part 1](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/media/Part1.gif)
 
 [Code]()
 
