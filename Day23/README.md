@@ -335,7 +335,7 @@ Using the initial configuration from the full diagram, **what is the least energ
 
 > **BONUS : Animated Approach**
 >
-> ![Day23 Part 1](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/media/Part1.gif)
+> ![Day23 Part 2](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/media/Part2.gif)
 
 [Code]()
 
