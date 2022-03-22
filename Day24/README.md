@@ -62,7 +62,8 @@ To enable as many submarine features as possible, find the largest valid fourtee
 
 > **My Answer : 93959993429899**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day24/Day24.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day24/Day24.py)
  
 ------
  
@@ -74,5 +75,5 @@ As the submarine starts booting up things like the Retro Encabulator, you realiz
 
 > **My Answer : 11815671117121**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day24/Day24.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day24/Day24.py)

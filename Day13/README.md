@@ -111,7 +111,8 @@ The transparent paper is pretty big, so for now, focus on just completing the fi
 
 > **My Answer : 763**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day13/Day13.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day13/Day13.py)
  
 ------
  
@@ -123,4 +124,5 @@ Finish folding the transparent paper according to the instructions. The manual s
 
 > **My Answer : RHALRCRA**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day13/Day13.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day13/Day13.py)

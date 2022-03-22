@@ -107,7 +107,8 @@ Find the initial velocity that causes the probe to reach the highest ```y``` pos
 
 > **My Answer : 5151**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day17/Day17.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day17/Day17.py)
  
 ------
  
@@ -136,5 +137,5 @@ In the above example, there are ```112``` different initial velocity values that
 
 > **My Answer : 968**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day17/Day17.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day17/Day17.py)

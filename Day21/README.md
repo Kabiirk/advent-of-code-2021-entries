@@ -39,7 +39,8 @@ Play a practice game using the deterministic 100-sided die. The moment either pl
 
 > **My Answer : 855624**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day21/Day21.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day21/Day21.py)
  
 ------
  
@@ -58,4 +59,5 @@ Using your given starting positions, determine every possible outcome. **Find th
 
 > **My Answer : 187451244607486**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day21/Day21.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day21/Day21.py)

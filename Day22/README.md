@@ -111,7 +111,8 @@ Execute the reboot steps. Afterward, considering only cubes in the region ```x=-
 
 > **My Answer : 611378**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day22/Day22.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day22/Day22.py)
  
 ------
  
@@ -189,5 +190,5 @@ Starting again with all cubes off, execute all reboot steps. Afterward, consider
 
 > **My Answer : 1214313344725528**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day22/Day22.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day22/Day22.py)

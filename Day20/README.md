@@ -106,7 +106,8 @@ Start with the original input image and apply the image enhancement algorithm tw
 
 > **My Answer : 5081**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day20/Day20.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day20/Day20.py)
  
 ------
  
@@ -119,5 +120,5 @@ Start again with the original input image and apply the image enhancement algori
 
 > **My Answer : 15088**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day20/Day20.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day20/Day20.py)

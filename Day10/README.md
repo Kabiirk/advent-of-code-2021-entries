@@ -58,7 +58,8 @@ Find the first illegal character in each corrupted line of the navigation subsys
 
 > **My Answer : 387363**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day10/Day10.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day10/Day10.py)
  
 ------
  
@@ -107,4 +108,5 @@ Find the completion string for each incomplete line, score the completion string
 
 > **My Answer : 4330777059**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day10/Day10.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day10/Day10.py)

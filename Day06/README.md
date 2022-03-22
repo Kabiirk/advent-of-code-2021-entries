@@ -53,7 +53,8 @@ Find a way to simulate lanternfish. **How many lanternfish would there be after 
 
 > **My Answer : 343441**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day06/Day06.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day06/Day06.py)
  
 ------
  
@@ -67,5 +68,5 @@ After ```256``` days in the example above, there would be a total of ```26984457
 
 > **My Answer : 1569108373832**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day06/Day06.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day06/Day06.py)

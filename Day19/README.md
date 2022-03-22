@@ -366,7 +366,8 @@ Assemble the full map of beacons. **How many beacons are there ?**
 
 > **My Answer : 332**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day19/Day19.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day19/Day19.py)
  
 ------
  
@@ -379,5 +380,5 @@ In the above example, scanners ``2`` (``1105,-1205,1229``) and ``3`` (``-92,-238
 
 > **My Answer : 8507**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day19/Day19.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day19/Day19.py)

@@ -36,7 +36,8 @@ The total risk of this path is ```40``` (the starting position is never entered,
 
 > **My Answer : 619**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day15/Day15.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day15/Day15.py)
  
 ------
  
@@ -168,5 +169,5 @@ The total risk of this path is ```315``` (the starting position is still never e
 
 > **My Answer : 2922**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day15/Day15.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day15/Day15.py)

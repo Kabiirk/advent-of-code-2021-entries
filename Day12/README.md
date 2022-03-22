@@ -102,7 +102,8 @@ start-RW
 
 > **My Answer : 3298**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day12/Day12.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day12/Day12.py)
  
 ------
  
@@ -155,4 +156,5 @@ The slightly larger example above now has ```103``` paths through it, and the ev
 
 > **My Answer : 93572**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day12/Day12.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day12/Day12.py)

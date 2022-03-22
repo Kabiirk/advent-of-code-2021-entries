@@ -300,7 +300,8 @@ Given the starting energy levels of the dumbo octopuses in your cavern, simulate
 
 > **My Answer : 1739**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day11/Day11.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day11/Day11.py)
  
 ------
  
@@ -350,4 +351,5 @@ If you can calculate the exact moments when the octopuses will all flash simulta
 
 > **My Answer : 324**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day11/Day11.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day11/Day11.py)

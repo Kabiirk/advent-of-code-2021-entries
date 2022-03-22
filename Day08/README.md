@@ -63,7 +63,8 @@ Because the digits ```1```, ```4```, ```7```, and ```8``` each use a unique numb
 
 > **My Answer : 512**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day08/Day08.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day08/Day08.py)
  
 ------
  
@@ -125,4 +126,5 @@ For each entry, determine all of the wire/segment connections and decode the fou
 
 > **My Answer : 1091165**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day08/Day08.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day08/Day08.py)

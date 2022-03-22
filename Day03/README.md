@@ -35,7 +35,8 @@ Use the binary numbers in your diagnostic report to calculate the gamma rate and
 
 > **My Answer : 845186**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day03/Day03.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day03/Day03.py)
  
 ------
  
@@ -75,5 +76,5 @@ Use the binary numbers in your diagnostic report to calculate the oxygen generat
 
 > **My Answer : 4636702**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day03/Day03.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day03/Day03.py)

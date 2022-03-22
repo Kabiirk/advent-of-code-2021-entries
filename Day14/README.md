@@ -56,7 +56,8 @@ Apply 10 steps of pair insertion to the polymer template and find the most and l
 
 > **My Answer : 3555**
 
-[Code](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.cpp)
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.py)
  
 ------
  
@@ -69,5 +70,5 @@ Apply **40** steps of pair insertion to the polymer template and find the most a
 
 > **My Answer : 4439442043739**
 
-[Code](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.cpp)
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day14/Day14.py)

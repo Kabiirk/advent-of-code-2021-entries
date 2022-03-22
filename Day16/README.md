@@ -94,7 +94,8 @@ Decode the structure of your hexadecimal-encoded BITS transmission; **what do yo
 
 > **My Answer : 971**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day16/Day16.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day16/Day16.py)
  
 ------
  
@@ -128,4 +129,5 @@ What do you get if you evaluate the expression represented by your hexadecimal-e
 
 > **My Answer : 831996589851**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day16/Day16.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day16/Day16.py)

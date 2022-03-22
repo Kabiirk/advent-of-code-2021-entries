@@ -1,4 +1,3 @@
-
 ### **--- Day 4: Giant Squid ---**
 You're already almost 1.5km (almost a mile) below the surface of the ocean, already so deep that you can't see any sunlight. What you can see, however, is a giant squid that has attached itself to the outside of your submarine.
 
@@ -60,7 +59,8 @@ To guarantee victory against the giant squid, figure out which board will win fi
 
 > **My Answer : 14093**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day04/Day04.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day04/Day04.py)
  
 ------
  
@@ -75,5 +75,5 @@ Figure out which board will win last. **Once it wins, what would its final score
 
 > **My Answer : 17388**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day04/Day04.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day04/Day04.py)

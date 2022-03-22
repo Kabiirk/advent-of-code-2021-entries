@@ -103,7 +103,8 @@ Finally, the last Amber amphipod moves into its room, using ```8``` energy:
 >
 > ![Day23 Part 1](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/media/Part1.gif)
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day23/Day23.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day23/Day23.py)
  
 ------
  
@@ -337,5 +338,5 @@ Using the initial configuration from the full diagram, **what is the least energ
 >
 > ![Day23 Part 2](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/media/Part2.gif)
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day23/Day23.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day23/Day23.py)

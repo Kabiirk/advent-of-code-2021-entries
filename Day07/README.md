@@ -36,7 +36,8 @@ Determine the horizontal position that the crabs can align to using the least fu
 
 > **My Answer : 347449**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day07/Day07.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day07/Day07.py)
  
 ------
  
@@ -65,5 +66,5 @@ Determine the horizontal position that the crabs can align to using the least fu
 
 > **My Answer : 98039527**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day07/Day07.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day07/Day07.py)

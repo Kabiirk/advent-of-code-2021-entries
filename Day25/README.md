@@ -283,7 +283,8 @@ Find somewhere safe to land your submarine. **What is the first step on which no
 
 > **My Answer : 520**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day25/Day25.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day25/Day25.py)
  
 ------
  

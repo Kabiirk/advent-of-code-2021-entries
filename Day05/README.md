@@ -43,7 +43,8 @@ Consider only horizontal and vertical lines. **At how many points do at least tw
 
 > **My Answer : 7414**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day05/Day05.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day05/Day05.py)
  
 ------
  
@@ -74,5 +75,5 @@ Consider all of the lines. **At how many points do at least two lines overlap ?*
 
 > **My Answer : 19676**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day05/Day05.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day05/Day05.py)

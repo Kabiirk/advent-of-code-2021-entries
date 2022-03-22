@@ -25,7 +25,8 @@ Find all of the low points on your heightmap. **What is the sum of the risk leve
 
 > **My Answer : 566**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day09/Day09.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day09/Day09.py)
  
 ------
  
@@ -75,4 +76,5 @@ Find the three largest basins and multiply their sizes together. In the above ex
 
 > **My Answer : 891684**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day09/Day09.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day09/Day09.py)

@@ -163,7 +163,8 @@ The magnitude of this final sum is ```4140```.
 
 > **My Answer : 4057**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day18/Day18.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day18/Day18.py)
  
 ------
  
@@ -194,4 +195,5 @@ The largest magnitude of the sum of any two snailfish numbers in this list is ``
 
 > **My Answer : 4683**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day18/Day18.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day18/Day18.py)

@@ -47,7 +47,8 @@ In this example, there are ```7``` measurements that are larger than the previou
 
 > **My Answer : 1502**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day01/Day01.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day01/Day01.py)
  
 ------
  
@@ -89,4 +90,5 @@ Consider sums of a three-measurement sliding window. **How many sums are larger 
 
 > **My Answer : 1538**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day01/Day01.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day01/Day01.py)

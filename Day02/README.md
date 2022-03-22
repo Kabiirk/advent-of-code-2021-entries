@@ -33,7 +33,8 @@ Calculate the horizontal position and depth you would have after following the p
 
 > **My Answer : 2322630**
 
-[Code]()
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day02/Day02.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day02/Day02.py)
  
 ------
  
@@ -65,5 +66,5 @@ Using this new interpretation of the commands, calculate the horizontal position
 
 > **My Answer : 2105273490**
 
-[Code]()
-
+#### Code :
+[C++](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day02/Day02.cpp) **;** [Python](https://github.com/Kabiirk/advent-of-code-2021-entries/blob/main/Day02/Day02.py)
