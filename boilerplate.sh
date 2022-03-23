@@ -1,3 +1,17 @@
+# creates Boilerplate files for both C++ & Python solutions
+# Along with a template README.md for Day 01
+
+# How to Run :
+# bash boilerplate.sh XX
+
+# where XX => 01, 02, 03 ... 23, 24, 25
+
+# E.g. :
+# 1.
+# bash boilerplate.sh 12
+# creates Boilerplate files for both C++ & Python solutions
+# Along with a template README.md for Day12
+
 if [ $# -ne 1 ]
   then
     echo "Improper number of arguments supplied"

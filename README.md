@@ -19,7 +19,7 @@ My solutions to Programming Puzzles featured on [Advent of code](https://advento
 #### [Day 16](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day16)
 #### [Day 17](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day17)
 #### [Day 18](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day18)
-#### [Day 19](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day29)
+#### [Day 19](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day19)
 #### [Day 20](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day20)
 #### [Day 21](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day21)
 #### [Day 22](https://github.com/Kabiirk/advent-of-code-2021-entries/tree/main/Day22)
@@ -31,7 +31,7 @@ My solutions to Programming Puzzles featured on [Advent of code](https://advento
 **NOTE :**
 * All C++ Solutions are compatible with **C++11** standard & above (**C++14**, **C++17**, **C++20** etc.)
 * **Part 1** and **Part 2** for each day (except Day 25) are in the a single ```.cpp``` & ```.py``` file.
-* ```boilerplate.sh``` can be used to generate started code (```.py``` & ```.cpp```) for any Day. Running instructions are mentioned in the file.
+* ```boilerplate.sh``` can be used to generate starter code (```.py``` & ```.cpp```) for any Day. Running instructions are mentioned in the file.
 
 ### Directory Structure
 ```
